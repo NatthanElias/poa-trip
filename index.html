@@ -1,0 +1,4049 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Porto Alegre · Finados 2026 (31/10 a 02/11)</title>
+  <meta name="description" content="Roteiro de 3 dias em Porto Alegre para 4 pessoas (31/10 a 02/11/2026). Horários, deslocamentos e mapa." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:title" content="Porto Alegre · Roteiro Finados 2026" />
+  <meta property="og:description" content="31/10 a 02/11 · 4 pessoas · Fast 10 City Hotel + 13 paradas e mapa." />
+  <meta property="og:image" content="https://destinopoa.com.br/wp-content/uploads/2024/12/MG_6864_21_11zon.webp" />
+  <meta name="theme-color" content="#F8F6F2" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <style>
+    :root {
+      --bg-page: #F8F6F2;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F1EDE6;
+      --ink-primary: #14181F;
+      --ink-secondary: #465061;
+      --ink-muted: #6C7585;
+      --border: #E5E0D6;
+      --border-strong: #CFC8BC;
+
+      --day-overview: #1E293B;
+      --day-sat: #D94E28;
+      --day-sat-soft: #FFF3EE;
+      --day-sun: #0F766E;
+      --day-sun-soft: #ECFDF8;
+      --day-mon: #4338CA;
+      --day-mon-soft: #EEF2FF;
+      --day-planb: #B45309;
+      --day-planb-soft: #FFFBEB;
+
+      --visited-green: #15803D;
+      --visited-bg: #DCFCE7;
+
+      --radius-xs: 8px;
+      --radius-sm: 11px;
+      --radius-md: 14px;
+      --radius-pill: 999px;
+
+      --shadow-xs: 0 1px 2px rgba(20, 24, 31, 0.04);
+      --shadow-sm: 0 3px 10px rgba(20, 24, 31, 0.05);
+      --shadow-md: 0 10px 24px rgba(20, 24, 31, 0.09);
+      --shadow-float: 0 12px 28px rgba(15, 23, 42, 0.22);
+
+      --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --header-h: 106px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --gutter-x: 14px;
+
+      --docked-map-h: min(52vh, 420px);
+      --map-sheet-h: min(46vh, 410px);
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --docked-map-h: min(52dvh, 420px);
+        --map-sheet-h: min(46dvh, 410px);
+      }
+    }
+
+    body.map-expanded {
+      --docked-map-h: min(74vh, 580px);
+      --map-sheet-h: min(76vh, 620px);
+    }
+
+    @supports (height: 100dvh) {
+      body.map-expanded {
+        --docked-map-h: min(74dvh, 580px);
+        --map-sheet-h: min(76dvh, 620px);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    body {
+      margin: 0;
+      max-width: 100%;
+      overflow-x: clip;
+      background: var(--bg-page);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      line-height: 1.48;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    button, a {
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    /* Sticky Header & Day Tabs */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      padding-top: var(--safe-top);
+      background: rgba(248, 246, 242, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 9px max(var(--gutter-x), var(--safe-right)) 6px max(var(--gutter-x), var(--safe-left));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: #1E293B;
+      color: #FFFFFF;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 11.5px;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-meta {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .progress-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+    }
+
+    .progress-text {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .progress-bar-track {
+      width: 48px;
+      height: 5px;
+      background: var(--bg-subtle);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--visited-green);
+      border-radius: var(--radius-pill);
+      transition: width 0.25s ease;
+    }
+
+    .sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      cursor: default;
+    }
+
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ink-muted);
+      flex-shrink: 0;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .sync-pill.is-ok .sync-dot {
+      background: #16A34A;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14);
+    }
+
+    .sync-pill.is-pending .sync-dot {
+      background: #D97706;
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
+    }
+
+    .sync-pill.is-off .sync-dot {
+      background: var(--ink-muted);
+      box-shadow: none;
+    }
+
+    .sync-label {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--ink-secondary);
+    }
+
+    .btn-share-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-height: 34px;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #BBF7D0;
+      background: #F0FDF4;
+      color: #166534;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-share-wa:hover {
+      background: #DCFCE7;
+    }
+
+    .btn-share-wa:active {
+      transform: scale(0.97);
+    }
+
+    .day-switcher-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2px max(var(--gutter-x), var(--safe-right)) 9px max(var(--gutter-x), var(--safe-left));
+    }
+
+    .day-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scroll-padding-inline: var(--gutter-x);
+    }
+
+    .day-switcher::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 6px 13px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .day-tab:hover {
+      border-color: var(--border-strong);
+      color: var(--ink-primary);
+    }
+
+    .day-tab:active {
+      transform: scale(0.97);
+    }
+
+    .day-tab .tab-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .day-tab.is-active {
+      background: var(--tab-color, var(--ink-primary));
+      border-color: var(--tab-color, var(--ink-primary));
+      color: #FFFFFF;
+    }
+
+    .day-tab.is-active .tab-dot {
+      background: #FFFFFF !important;
+    }
+
+    /* Main Single-Column Workspace */
+    .workspace {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .timeline-pane {
+      padding: 14px max(var(--gutter-x), var(--safe-right)) 18px max(var(--gutter-x), var(--safe-left));
+      min-width: 0;
+    }
+
+    .hotel-showcase,
+    .stop-card,
+    .logistics-card {
+      cursor: pointer;
+      touch-action: manipulation;
+      scroll-margin-top: calc(var(--header-h) + 10px);
+    }
+
+    /* Hybrid Map: Docked at Page Bottom + Floating Popup Sheet on Destination Click */
+    .map-bottom-section {
+      padding: 6px max(var(--gutter-x), var(--safe-right)) calc(38px + var(--safe-bottom)) max(var(--gutter-x), var(--safe-left));
+      transition: padding-bottom 0.25s ease;
+    }
+
+    body.map-open .map-bottom-section {
+      padding-bottom: calc(var(--map-sheet-h) + 28px + var(--safe-bottom));
+    }
+
+    .bottom-map-heading {
+      margin-bottom: 9px;
+    }
+
+    .bottom-map-title {
+      margin: 0 0 2px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+    }
+
+    .bottom-map-sub {
+      margin: 0;
+      font-size: 12.5px;
+      color: var(--ink-muted);
+    }
+
+    .map-slot {
+      position: relative;
+      min-height: var(--docked-map-h);
+      border-radius: var(--radius-md);
+    }
+
+    body.map-open .map-slot {
+      border: 1px dashed var(--border-strong);
+      background: var(--bg-subtle);
+      display: grid;
+      place-items: center;
+    }
+
+    body.map-open .map-slot::before {
+      content: "Mapa aberto na janela flutuante";
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    @keyframes mapPopupSlideUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    /* Default: Docked cleanly at the bottom of the page */
+    .map-drawer {
+      position: relative;
+      width: 100%;
+      height: var(--docked-map-h);
+      min-height: 265px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: height 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Popup Mode: Floats up over the bottom of the viewport when clicking a destination */
+    body.map-open .map-drawer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 880;
+      max-width: 840px;
+      margin: 0 auto;
+      height: var(--map-sheet-h);
+      min-height: 250px;
+      padding-bottom: var(--safe-bottom);
+      border: 1px solid var(--border-strong);
+      border-bottom: none;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -12px 34px rgba(15, 23, 42, 0.22);
+      animation: mapPopupSlideUp 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, height;
+    }
+
+    body.map-open .map-drawer.is-closing {
+      animation: none;
+      transform: translateY(105%);
+      transition: transform 0.2s ease-in;
+    }
+
+    .map-drawer.is-dragging {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .map-drawer-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body.map-open .map-drawer-header {
+      touch-action: none;
+    }
+
+    .map-drag-handle {
+      display: none;
+      width: 38px;
+      height: 4px;
+      border-radius: var(--radius-pill);
+      background: var(--border-strong);
+      margin: 7px auto 2px;
+    }
+
+    body.map-open .map-drag-handle {
+      display: block;
+    }
+
+    .map-drawer-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+
+    body.map-open .map-drawer-bar {
+      padding: 4px max(12px, var(--safe-right)) 8px max(12px, var(--safe-left));
+    }
+
+    .map-legend-pill {
+      min-width: 0;
+      flex: 1 1 auto;
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--ink-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .map-drawer-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-map-ctrl {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 5px 11px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--ink-primary);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-map-ctrl:hover {
+      background: #E7E2D8;
+    }
+
+    .btn-map-ctrl:active {
+      transform: scale(0.96);
+    }
+
+    .btn-map-ctrl[aria-pressed="true"] {
+      background: #EEF2FF;
+      border-color: #818CF8;
+      color: #312E81;
+    }
+
+    .btn-map-close {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 34px;
+      padding: 5px 12px;
+      border: none;
+      background: #14181F;
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    body.map-open .btn-map-close {
+      display: inline-flex;
+    }
+
+    .btn-map-close:hover {
+      background: #2C3444;
+    }
+
+    .btn-map-close:active {
+      transform: scale(0.96);
+    }
+
+    .map-canvas {
+      width: 100%;
+      height: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      background: #E9E5DC;
+    }
+
+    /* Day Hero & Filter Bar */
+    .day-hero {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--day-accent, var(--ink-primary));
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .day-hero-eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--day-accent, var(--ink-primary));
+      margin-bottom: 4px;
+    }
+
+    .day-hero-title {
+      margin: 0 0 4px;
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .day-hero-desc {
+      margin: 0;
+      color: var(--ink-secondary);
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .filter-toggle {
+      min-height: 34px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      cursor: pointer;
+    }
+
+    .filter-toggle.is-active {
+      background: #EEF2FF;
+      border-color: #A5B4FC;
+      color: #3730A3;
+    }
+
+    /* Overview Components */
+    .hotel-showcase {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-xs);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .hotel-showcase.is-highlighted {
+      border-color: #0F172A;
+      box-shadow: 0 0 0 2.5px rgba(15, 23, 42, 0.16), var(--shadow-md);
+    }
+
+    .hotel-media {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      max-height: 196px;
+      min-height: 152px;
+      width: 100%;
+      background: #1E293B;
+      cursor: pointer;
+    }
+
+    .hotel-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hotel-badge-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.86);
+      color: #FDE68A;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .hotel-body {
+      padding: 13px 14px 14px;
+    }
+
+    .hotel-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .hotel-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 16.5px;
+      font-weight: 800;
+      line-height: 1.25;
+      min-width: 0;
+    }
+
+    .hotel-address {
+      margin: 0 0 9px;
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      overflow-wrap: break-word;
+    }
+
+    .hotel-perks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .perk-chip {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      max-width: 100%;
+      line-height: 1.35;
+    }
+
+    .overview-days-grid {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .overview-day-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 13px;
+      text-align: left;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      transition: border-color 0.15s ease;
+    }
+
+    .overview-day-card:hover {
+      border-color: var(--border-strong);
+    }
+
+    .ov-card-head-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .ov-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .ov-day-pill {
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 800;
+    }
+
+    .ov-day-progress {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ov-card-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .ov-card-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--ink-primary);
+      line-height: 1.3;
+    }
+
+    .ov-open-hint {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ov-card-head-btn:hover .ov-open-hint {
+      color: var(--ink-primary);
+    }
+
+    .ov-checklist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .ov-check-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 31px;
+      padding: 4px 9px 4px 7px;
+      border-radius: 7px;
+      border: 1px solid var(--border-strong);
+      background: #FAF9F5;
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+      cursor: pointer;
+      text-align: left;
+      max-width: 100%;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .ov-check-chip:hover {
+      background: var(--bg-subtle);
+      border-color: #94A3B8;
+    }
+
+    .ov-check-chip:active {
+      transform: scale(0.97);
+    }
+
+    .ov-check-chip.is-checked {
+      background: var(--visited-bg);
+      border-color: #4ADE80;
+      color: var(--visited-green);
+    }
+
+    .ov-check-chip.is-checked .ov-chip-name {
+      text-decoration: line-through;
+      text-decoration-thickness: 1.5px;
+      opacity: 0.88;
+    }
+
+    .ov-chip-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .check-box-ui {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.75px solid #94A3B8;
+      background: #FFFFFF;
+      color: transparent;
+      display: inline-grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .is-checked .check-box-ui {
+      background: #16A34A;
+      border-color: #16A34A;
+      color: #FFFFFF;
+    }
+
+    .logistics-summary-box {
+      background: #FFFDF7;
+      border: 1px solid #EFE0B0;
+      border-radius: var(--radius-sm);
+      padding: 13px 14px;
+    }
+
+    .logistics-summary-box h3 {
+      margin: 0 0 6px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: #78350F;
+    }
+
+    .logistics-list {
+      margin: 0;
+      padding-left: 17px;
+      color: #57411D;
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .logistics-list li + li {
+      margin-top: 5px;
+    }
+
+    /* Timeline & Transit Pills */
+    .timeline {
+      position: relative;
+      padding-left: 26px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      bottom: 18px;
+      left: 9px;
+      width: 2px;
+      background: var(--border-strong);
+    }
+
+    .transit-connector {
+      position: relative;
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .transit-connector::before {
+      content: "";
+      position: absolute;
+      left: -20px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--bg-page);
+      border: 2px solid var(--day-accent, #64748B);
+    }
+
+    .transit-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      max-width: 100%;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border-strong);
+      color: var(--ink-secondary);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      line-height: 1.3;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: break-word;
+    }
+
+    /* Compact Logistics Row */
+    .logistics-card {
+      position: relative;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 13px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .logistics-card.is-highlighted {
+      border-color: var(--day-accent, var(--ink-primary));
+      box-shadow: 0 0 0 2.5px rgba(30, 41, 59, 0.14), var(--shadow-sm);
+    }
+
+    .logistics-node {
+      position: absolute;
+      left: -23px;
+      top: 14px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 2.5px solid var(--day-accent, #64748B);
+    }
+
+    .logistics-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .logistics-head-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .time-badge {
+      padding: 2.5px 8px;
+      border-radius: 6px;
+      background: var(--day-soft, var(--bg-subtle));
+      color: var(--day-accent, var(--ink-primary));
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .neighborhood-pill {
+      padding: 2.5px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-subtle);
+      color: var(--ink-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+
+    .logistics-title {
+      margin: 0 0 3px;
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .logistics-desc {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink-secondary);
+      line-height: 1.45;
+      white-space: pre-line;
+      overflow-wrap: break-word;
+    }
+
+    .logistics-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    /* Stop Card */
+    .timeline-stop-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .timeline-stop-dot {
+      position: absolute;
+      left: -27px;
+      top: 14px;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      border-radius: 50%;
+      background: var(--day-accent, #1E293B);
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--bg-page);
+      cursor: pointer;
+      z-index: 4;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+
+    .timeline-stop-dot:hover {
+      transform: scale(1.1);
+    }
+
+    .timeline-stop-dot.is-visited {
+      background: var(--visited-green);
+    }
+
+    .stop-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .stop-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stop-card.is-highlighted {
+      border-color: var(--day-accent, var(--ink-primary));
+      box-shadow: 0 0 0 2.5px rgba(217, 78, 40, 0.18), var(--shadow-md);
+    }
+
+    .stop-card.is-visited {
+      border-color: #86EFAC;
+    }
+
+    .stop-media {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      max-height: 192px;
+      min-height: 148px;
+      width: 100%;
+      background: #1E293B;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .stop-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .media-top-badges {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      right: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .stop-number-pill {
+      padding: 3.5px 9px;
+      border-radius: var(--radius-pill);
+      background: var(--day-accent, #1E293B);
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .category-glass-pill {
+      padding: 3.5px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      max-width: 72%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .photo-next-btn {
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      z-index: 4;
+      min-height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(15, 23, 42, 0.76);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      padding: 5px 11px;
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .photo-next-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Fallback Gradient Card (onerror) */
+    .photo-fallback-poster {
+      width: 100%;
+      height: 100%;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: #FFFFFF;
+    }
+
+    .fallback-kicker {
+      font-family: var(--font-display);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+      margin-bottom: 2px;
+    }
+
+    .fallback-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .grad-rose { background: linear-gradient(135deg, #9D174D, #E11D48); }
+    .grad-terracotta { background: linear-gradient(135deg, #9A3412, #EA580C); }
+    .grad-amber { background: linear-gradient(135deg, #78350F, #D97706); }
+    .grad-spice { background: linear-gradient(135deg, #7C2D12, #CA8A04); }
+    .grad-crimson { background: linear-gradient(135deg, #7F1D1D, #DC2626); }
+    .grad-pink { background: linear-gradient(135deg, #831843, #DB2777); }
+    .grad-teal { background: linear-gradient(135deg, #115E59, #0D9488); }
+    .grad-emerald { background: linear-gradient(135deg, #065F46, #10B981); }
+    .grad-forest { background: linear-gradient(135deg, #14532D, #15803D); }
+    .grad-indigo { background: linear-gradient(135deg, #312E81, #4F46E5); }
+    .grad-cobalt { background: linear-gradient(135deg, #1E3A8A, #2563EB); }
+    .grad-violet { background: linear-gradient(135deg, #4C1D95, #7C3AED); }
+
+    .stop-body {
+      padding: 12px 14px 13px;
+    }
+
+    .stop-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .stop-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .btn-focus-map {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 29px;
+      padding: 4px 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--ink-primary);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: var(--radius-pill);
+      flex-shrink: 0;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-focus-map:hover {
+      background: #E7E2D8;
+    }
+
+    .is-highlighted .btn-focus-map {
+      background: var(--day-accent, #1E293B);
+      border-color: var(--day-accent, #1E293B);
+      color: #FFFFFF;
+    }
+
+    .stop-title {
+      margin: 0 0 3px;
+      font-family: var(--font-display);
+      font-size: 16.5px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+      overflow-wrap: break-word;
+    }
+
+    .stop-address {
+      margin: 0 0 8px;
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      overflow-wrap: break-word;
+    }
+
+    .stop-highlights {
+      margin: 0 0 9px;
+      font-size: 13.5px;
+      line-height: 1.48;
+      color: var(--ink-secondary);
+      overflow-wrap: break-word;
+    }
+
+    .sublocations-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 9px;
+    }
+
+    .subloc-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 31px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-subtle);
+      color: var(--ink-primary);
+      text-decoration: none;
+      border: 1px solid var(--border);
+    }
+
+    a.subloc-chip:hover {
+      border-color: var(--ink-primary);
+      background: #FFFFFF;
+    }
+
+    .callout-why {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-left: 3px solid var(--day-accent, #334155);
+      border-radius: 7px;
+      padding: 7px 10px;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+      line-height: 1.42;
+      color: #334155;
+      overflow-wrap: break-word;
+    }
+
+    .callout-group {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 7px;
+      padding: 7px 10px;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+      line-height: 1.42;
+      color: #14532D;
+      overflow-wrap: break-word;
+    }
+
+    .callout-holiday {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: #FFFBEB;
+      border: 1px solid #FCD34D;
+      border-radius: 7px;
+      padding: 7px 10px;
+      margin-bottom: 9px;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 600;
+      color: #92400E;
+    }
+
+    .callout-holiday span {
+      min-width: 0;
+      flex: 1 1 190px;
+    }
+
+    .callout-holiday a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      background: #D97706;
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 36px;
+      padding: 7px 11px;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .action-btn:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-strong);
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+    }
+
+    .action-btn-maps {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+    }
+
+    .action-btn-visited {
+      margin-left: auto;
+      gap: 7px;
+      padding: 7px 12px 7px 9px;
+      background: #FAF9F5;
+      border-color: #CBD5E1;
+      color: var(--ink-primary);
+    }
+
+    .action-btn-visited:hover {
+      background: #F1F5F9;
+      border-color: #94A3B8;
+    }
+
+    .action-btn-visited.is-checked {
+      background: var(--visited-bg);
+      border-color: #4ADE80;
+      color: var(--visited-green);
+    }
+
+    @media (max-width: 480px) {
+      .action-btn-visited {
+        flex: 1 1 100%;
+        order: -1;
+        margin-left: 0;
+        justify-content: center;
+      }
+    }
+
+    .planb-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    @media (min-width: 680px) {
+      body {
+        font-size: 14px;
+      }
+      .overview-days-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .planb-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Leaflet Custom Pins, Controls & Popups */
+    .poa-pin-wrapper {
+      background: transparent;
+      border: none;
+    }
+
+    .poa-pin {
+      width: 32px;
+      height: 32px;
+      border-radius: 50% 50% 50% 4px;
+      transform: rotate(-45deg);
+      background: var(--pin-bg, #1E293B);
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.32);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .poa-pin span {
+      transform: rotate(45deg);
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .poa-pin.is-hotel {
+      width: 35px;
+      height: 35px;
+      background: #0F172A;
+      border-color: #FBBF24;
+    }
+
+    .poa-pin.is-visited::after {
+      content: "✓";
+      transform: rotate(45deg);
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #16A34A;
+      color: #FFFFFF;
+      font-size: 8.5px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid #FFFFFF;
+    }
+
+    .leaflet-control-zoom {
+      border: 1px solid var(--border-strong) !important;
+      border-radius: 10px !important;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm) !important;
+      margin-right: 10px !important;
+      margin-bottom: 10px !important;
+    }
+
+    .leaflet-control-zoom a {
+      width: 36px !important;
+      height: 36px !important;
+      line-height: 36px !important;
+      font-size: 18px !important;
+      color: var(--ink-primary) !important;
+      background: rgba(255, 255, 255, 0.96) !important;
+    }
+
+    .leaflet-control-layers {
+      border: 1px solid var(--border-strong) !important;
+      border-radius: 10px !important;
+      box-shadow: var(--shadow-sm) !important;
+      background: rgba(255, 255, 255, 0.96) !important;
+      font-family: var(--font-sans) !important;
+      font-size: 12px !important;
+      margin-top: 10px !important;
+      margin-right: 10px !important;
+    }
+
+    .leaflet-control-layers-toggle {
+      width: 34px !important;
+      height: 34px !important;
+      background-size: 18px 18px !important;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 9.5px !important;
+      padding: 1px 6px !important;
+      background: rgba(255, 255, 255, 0.78) !important;
+      max-width: 72vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important;
+      padding: 0 !important;
+      overflow: hidden;
+      box-shadow: var(--shadow-md) !important;
+    }
+
+    .leaflet-popup-content {
+      margin: 0 !important;
+      width: min(220px, calc(100vw - 56px)) !important;
+      font-family: var(--font-sans);
+    }
+
+    .leaflet-container a.leaflet-popup-close-button {
+      width: 28px !important;
+      height: 28px !important;
+      font-size: 18px !important;
+      line-height: 26px !important;
+      color: var(--ink-muted) !important;
+      top: 4px !important;
+      right: 4px !important;
+    }
+
+    .map-popup-card {
+      padding: 11px 12px;
+    }
+
+    .map-popup-kicker {
+      font-family: var(--font-display);
+      font-size: 10.5px;
+      font-weight: 800;
+      margin-bottom: 2px;
+      padding-right: 18px;
+    }
+
+    .map-popup-title {
+      margin: 0 0 3px;
+      font-family: var(--font-display);
+      font-size: 13.5px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--ink-primary);
+      padding-right: 14px;
+    }
+
+    .map-popup-addr {
+      margin: 0 0 9px;
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: var(--ink-muted);
+    }
+
+    .map-popup-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .popup-btn-visited {
+      flex: 1 1 100% !important;
+      gap: 6px;
+      border: 1px solid #CBD5E1;
+      background: #FAF9F5;
+      color: var(--ink-primary);
+    }
+
+    .popup-btn-visited.is-checked {
+      background: var(--visited-bg);
+      border-color: #4ADE80;
+      color: var(--visited-green);
+    }
+
+    .map-popup-actions a,
+    .map-popup-actions button {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      text-align: center;
+      padding: 6px 8px;
+      border-radius: 7px;
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .popup-btn-card {
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--ink-primary);
+    }
+
+    .popup-btn-gmaps {
+      border: none;
+      background: #1E293B;
+      color: #FFFFFF !important;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: calc(18px + var(--safe-bottom));
+      transition: bottom 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      max-width: calc(100vw - 28px);
+      background: #14181F;
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: var(--shadow-float);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    body.map-open .toast {
+      bottom: calc(var(--map-sheet-h) + 12px + var(--safe-bottom));
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Cellphone Responsive Rules */
+    @media (max-width: 640px) {
+      :root {
+        --gutter-x: 12px;
+        --docked-map-h: 50vh;
+        --map-sheet-h: 46vh;
+      }
+
+      @supports (height: 100dvh) {
+        :root {
+          --docked-map-h: 50dvh;
+          --map-sheet-h: 46dvh;
+        }
+      }
+
+      body.map-expanded {
+        --docked-map-h: 74vh;
+        --map-sheet-h: 78vh;
+      }
+
+      @supports (height: 100dvh) {
+        body.map-expanded {
+          --docked-map-h: 74dvh;
+          --map-sheet-h: 78dvh;
+        }
+      }
+
+      .day-switcher-wrap {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .day-switcher {
+        padding-left: max(var(--gutter-x), var(--safe-left));
+        padding-right: max(var(--gutter-x), var(--safe-right));
+      }
+
+      body.map-open .map-drawer {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+        border-radius: 18px 18px 0 0;
+        min-height: 245px;
+      }
+
+      .fit-label-long {
+        display: none;
+      }
+
+      .action-bar .action-btn {
+        min-height: 38px;
+        font-size: 12.5px;
+        flex: 1 1 calc(33.333% - 6px);
+      }
+
+      .action-bar .action-btn-visited {
+        margin-left: 0;
+        flex: 1 1 100%;
+        min-height: 40px;
+      }
+
+      .logistics-links .action-btn {
+        min-height: 36px;
+        flex: 1 1 auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .progress-suffix {
+        display: none;
+      }
+
+      .sync-label {
+        display: none;
+      }
+
+      .progress-bar-track {
+        width: 34px;
+      }
+
+      .brand-title {
+        font-size: 14.5px;
+      }
+
+      .brand-meta {
+        font-size: 11px;
+      }
+
+      .stop-body,
+      .hotel-body {
+        padding: 12px;
+      }
+
+      .day-hero {
+        padding: 11px 12px;
+      }
+
+      .day-hero-title {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      :root {
+        --gutter-x: 10px;
+      }
+
+      .brand-mark {
+        width: 29px;
+        height: 29px;
+        font-size: 10.5px;
+      }
+
+      .progress-bar-track {
+        display: none;
+      }
+
+      .btn-share-wa {
+        padding: 5px 9px;
+        font-size: 11.5px;
+      }
+
+      .timeline {
+        padding-left: 22px;
+      }
+
+      .timeline::before {
+        left: 7px;
+      }
+
+      .timeline-stop-dot {
+        left: -22px;
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+      }
+
+      .logistics-node {
+        left: -19px;
+        width: 12px;
+        height: 12px;
+      }
+
+      .transit-connector::before {
+        left: -18px;
+      }
+
+      .action-bar .action-btn {
+        flex: 1 1 calc(50% - 6px);
+      }
+
+      .action-bar .action-btn-visited {
+        flex: 1 1 100%;
+      }
+
+      .btn-map-ctrl,
+      .btn-map-close {
+        padding: 5px 9px;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-height: 500px) {
+      :root {
+        --docked-map-h: 64vh;
+        --map-sheet-h: 58vh;
+      }
+
+      @supports (height: 100dvh) {
+        :root {
+          --docked-map-h: 64dvh;
+          --map-sheet-h: 58dvh;
+        }
+      }
+
+      .map-drawer,
+      body.map-open .map-drawer {
+        min-height: 190px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-group">
+        <div class="brand-mark" aria-hidden="true">POA</div>
+        <div class="brand-text">
+          <h1 class="brand-title">Porto Alegre · Finados 2026</h1>
+          <div class="brand-meta">31 out a 2 nov · 4 pessoas · Fast 10</div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="progress-pill" title="Paradas visitadas">
+          <span class="progress-text" id="progress-label"><span class="progress-count">0/13</span><span class="progress-suffix"> visitados</span></span>
+          <div class="progress-bar-track" aria-hidden="true">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="sync-pill is-pending" id="sync-pill" title="Sincronização do grupo em tempo real">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <span class="sync-label" id="sync-label">Sincronizando…</span>
+        </div>
+
+        <button type="button" class="btn-share-wa" id="btn-share-wa" title="Compartilhar resumo no WhatsApp">
+          <span>WhatsApp</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="day-switcher-wrap" aria-label="Dias do roteiro">
+      <div class="day-switcher" id="day-switcher"></div>
+    </nav>
+  </header>
+
+  <main class="workspace">
+    <section class="timeline-pane" id="timeline-content" aria-live="polite"></section>
+
+    <section class="map-bottom-section" aria-label="Mapa no fim da página">
+      <div class="bottom-map-heading">
+        <h2 class="bottom-map-title">Mapa do roteiro</h2>
+        <p class="bottom-map-sub">Toque em qualquer parada acima para abrir o mapa flutuante na tela.</p>
+      </div>
+      <div class="map-slot" id="map-slot">
+        <aside class="map-drawer" id="map-drawer" aria-label="Mapa do roteiro">
+          <div class="map-drawer-header" id="map-drawer-header">
+            <div class="map-drag-handle" aria-hidden="true"></div>
+            <div class="map-drawer-bar">
+              <div class="map-legend-pill" id="map-legend-text">Rota do dia</div>
+              <div class="map-drawer-actions">
+                <button type="button" class="btn-map-ctrl" id="btn-map-fit">Rota<span class="fit-label-long"> do dia</span></button>
+                <button type="button" class="btn-map-ctrl" id="btn-map-expand" aria-pressed="false">Ampliar</button>
+                <button type="button" class="btn-map-close" id="btn-map-close">Fechar ✕</button>
+              </div>
+            </div>
+          </div>
+          <div id="poa-map" class="map-canvas"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="app-toast" role="status" aria-live="polite"></div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script>
+    const POA_TRIP_DATA = {
+      meta: {
+        totalConfirmedStops: 13,
+        storageKey: "poa_trip_2026_visited_v1",
+        logKey: "poa_trip_2026_visited_log_v1",
+        deviceKey: "poa_trip_2026_device_id",
+        groupSync: {
+          snapshotUrl: "https://textdb.dev/api/data/poa-11bc3fe4415e485821f6b8ba",
+          topic: "https://ntfy.sh/poa-trip-finados-5af55d3107922f4d"
+        }
+      },
+
+      dayThemes: {
+        overview: {
+          id: "overview",
+          shortLabel: "Visão Geral",
+          color: "#1E293B",
+          softBg: "#F1F5F9"
+        },
+        sat: {
+          id: "sat",
+          shortLabel: "Sábado (31/10)",
+          fullTitle: "Dia 1 · Sábado, 31/10",
+          themeTitle: "Centro a pé + tarde e noite no Moinhos",
+          themeSubtitle: "Concentra os lugares que fecham no domingo e no feriado.",
+          color: "#D94E28",
+          softBg: "#FFF3EE",
+          stats: "6 paradas · Maioria a pé à tarde"
+        },
+        sun: {
+          id: "sun",
+          shortLabel: "Domingo (01/11)",
+          fullTitle: "Dia 2 · Domingo, 01/11",
+          themeTitle: "Cultura no Centro + almoço árabe e Ginkgo",
+          themeSubtitle: "Manhã a pé pela Rua dos Andradas, almoço no Zaituna e café na Auxiliadora.",
+          color: "#0F766E",
+          softBg: "#ECFDF8",
+          stats: "4 paradas + passeio livre e jantar"
+        },
+        mon: {
+          id: "mon",
+          shortLabel: "Segunda (02/11)",
+          fullTitle: "Dia 3 · Segunda, 02/11 (Finados)",
+          themeTitle: "Zona Norte / Passo d'Areia + estrada",
+          themeSubtitle: "Check-out com malas no carro, estacionamento coberto nos shoppings e saída às 16h15 para Passo Fundo.",
+          color: "#4338CA",
+          softBg: "#EEF2FF",
+          stats: "3 paradas · Saída direto pela Zona Norte"
+        },
+        planb: {
+          id: "planb",
+          shortLabel: "Planos B",
+          themeTitle: "Planos B e jantar de domingo",
+          themeSubtitle: "6 opções extras verificadas para o jantar livre de domingo ou troca rápida no roteiro.",
+          color: "#B45309",
+          softBg: "#FFFBEB"
+        }
+      },
+
+      baseHotel: {
+        id: "hotel-fast10",
+        name: "Fast 10 City Hotel",
+        badge: "Hotel base",
+        category: "Hospedagem",
+        neighborhood: "Centro Histórico",
+        address: "Rua José Montaury, 20, Centro Histórico",
+        lat: -30.02895,
+        lng: -51.22776,
+        breakfastNote: "Café incluso (07h às 10h)",
+        checkInOut: "Recepção 24h · Check-in 14h · Check-out 12h",
+        description: "Ao lado da Rua dos Andradas e do Farol Santander. Dá para deixar as malas na recepção se chegarmos antes do check-in.",
+        images: [
+          "https://www.fast10hotel.com.br/fotos/07663f2e24d6215ffa623e1e81629f2e.jpg",
+          "https://www.fast10hotel.com.br/fotos/8b689e5116cebe07d218465b1b9db3f3.jpg",
+          "https://www.fast10hotel.com.br/fotos/f185b42af5f7ae8846b36193644a0a27.jpg"
+        ],
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre",
+        instaUrl: "https://www.instagram.com/fast10city/",
+        instaHandle: "@fast10city",
+        websiteUrl: "https://www.fast10hotel.com.br/"
+      },
+
+      days: {
+        sat: [
+          {
+            type: "logistics",
+            id: "sat-checkin",
+            time: "08:30 - 11:30",
+            title: "Chegada, check-in e manhã livre no hotel",
+            neighborhood: "Centro Histórico",
+            address: "Rua José Montaury, 20",
+            lat: -30.02895,
+            lng: -51.22776,
+            description: "Descansar da viagem de madrugada e guardar as malas na recepção 24h.",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre"
+          },
+          { type: "transit", label: "4 min a pé (350m)" },
+          {
+            type: "stop",
+            id: "stop-1",
+            stopNumber: 1,
+            day: "sat",
+            time: "11:30 - 12:15",
+            name: "Vonny Cosméticos",
+            category: "Cosméticos",
+            gradientTheme: "rose",
+            neighborhood: "Centro Histórico",
+            address: "Rua dos Andradas, 1035",
+            lat: -30.03056,
+            lng: -51.23139,
+            whyThisTime: "Abre sábado até 17h. Fecha domingo e segunda de feriado.",
+            groupNote: "Eu vi essa eu quero ir!",
+            highlights: "Loja grande de maquiagem, pele e cabelo no térreo do prédio histórico da Previdência do Sul, em frente à Praça da Alfândega.",
+            images: [
+              "https://upload.wikimedia.org/wikipedia/commons/0/0b/Previd%C3%AAncia-do-Sul.jpg",
+              "https://www.vonny.com.br/wp-content/uploads/2026/10/banner-mobile-em-breve-novas-lojas-1.png",
+              "https://upload.wikimedia.org/wikipedia/commons/5/56/Farm%C3%A1cia_carvalho_-_porto_alegre.jpg"
+            ],
+            mapsUrl: "https://maps.app.goo.gl/JPCRfcT9a5yWThKQA",
+            videoUrl: "https://vt.tiktok.com/ZSbJQ4LkH/",
+            videoPlatform: "TikTok",
+            instaUrl: "https://www.instagram.com/vonnyoficial/"
+          },
+          { type: "transit", label: "4 min de Uber/carro (1,3 km)" },
+          {
+            type: "stop",
+            id: "stop-2",
+            stopNumber: 2,
+            day: "sat",
+            time: "12:20 - 14:15",
+            name: "5 Brechós da Av. João Pessoa",
+            category: "Brechós",
+            gradientTheme: "terracotta",
+            neighborhood: "Farroupilha",
+            address: "Av. João Pessoa, 1236 a 1370",
+            lat: -30.04315,
+            lng: -51.21395,
+            whyThisTime: "Todos na mesma quadra. Abrem sábado à tarde e fecham domingo e segunda.",
+            highlights: "Casacos, couro e peças vintage em sequência na mesma calçada.",
+            subLocations: [
+              { name: "Emilia (1370)", url: "https://www.instagram.com/emiliabrecho/" },
+              { name: "Dona Florinda (1236)", url: null },
+              { name: "Brechó da Reji (1244)", url: null },
+              { name: "Sol de Luna", url: "https://www.instagram.com/soldelunabrecho/" },
+              { name: "Bottega", url: "https://www.instagram.com/bottega.brecho/" }
+            ],
+            images: [
+              "https://www.rbsdirect.com.br/filestore/5/9/2/7/1/3/5_bf445024efa99c6/5317295_2441c764956dc49.jpg",
+              "https://www.rbsdirect.com.br/filestore/3/5/9/0/2/3/5_c51df7650b25f55/5320953_10d57bfaee24f75.jpg",
+              "https://www.rbsdirect.com.br/imagesrc/16659903.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Avenida+Joao+Pessoa+1236+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DdSHMbYRDZ8/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/emiliabrecho/"
+          },
+          { type: "transit", label: "7 min de Uber/carro (2,6 km)" },
+          {
+            type: "stop",
+            id: "stop-3",
+            stopNumber: 3,
+            day: "sat",
+            time: "14:30 - 15:20",
+            name: "Freddie's Deli (Almoço parte 1)",
+            category: "Deli",
+            gradientTheme: "amber",
+            neighborhood: "Moinhos de Vento",
+            address: "Rua Félix da Cunha, 1221, loja E (Pátio Ivo Rizzo)",
+            lat: -30.02367,
+            lng: -51.20202,
+            whyThisTime: "Sábado direto das 11h às 19h. Fecha domingo.",
+            highlights: "Charcutaria própria na janela do Pátio Ivo Rizzo: sanduíche de pastrami defumado na casa, roast beef no jus e cubano.",
+            images: [
+              "https://www.jornaldocomercio.com/_midias/jpg/2025/12/29/800x600/1_img_20251229_wa0061-11604190.jpg",
+              "https://www.jornaldocomercio.com/_midias/jpg/2025/12/29/800x600/1_img_20251229_wa0044-11604202.jpg",
+              "https://destinopoa.com.br/wp-content/uploads/2026/01/Captura-de-Tela-2026-01-22-as-15.38.26.webp"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Freddie%27s+Deli+Rua+Felix+da+Cunha+1221+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/Dal1CIXOCHf/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/freddies.deli/"
+          },
+          { type: "transit", label: "3 min a pé/carro (850m)" },
+          {
+            type: "stop",
+            id: "stop-4",
+            stopNumber: 4,
+            day: "sat",
+            time: "15:25 - 16:15",
+            name: "Louie's Italian Deli (Almoço parte 2)",
+            category: "Panuozzo & Sorvete",
+            gradientTheme: "terracotta",
+            neighborhood: "Auxiliadora",
+            address: "Rua 24 de Outubro, 1600",
+            lat: -30.02153,
+            lng: -51.19282,
+            whyThisTime: "Sábado direto das 11h às 19h. Fecha domingo.",
+            highlights: "Dividir panuozzo na massa de pizza (Bologna com mortadela, stracciatella e pistache) + soft serve e cookies da casa.",
+            images: [
+              "https://www.louiesdeli.com.br/assets/img/bologna.webp",
+              "https://www.louiesdeli.com.br/assets/img/soft.webp",
+              "https://www.louiesdeli.com.br/assets/img/fachada.webp"
+            ],
+            mapsUrl: "https://maps.app.goo.gl/P2cn6CbwTi1MSyHYA",
+            videoUrl: "https://www.instagram.com/reel/DdOx3uUAcDS/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/louies_deli/"
+          },
+          { type: "transit", label: "4 min na mesma rua (950m)" },
+          {
+            type: "stop",
+            id: "stop-5",
+            stopNumber: 5,
+            day: "sat",
+            time: "16:30 - 17:45",
+            name: "The Samosa Bar",
+            category: "Comida Indiana",
+            gradientTheme: "spice",
+            neighborhood: "Moinhos de Vento",
+            address: "Rua 24 de Outubro, 636, loja 04 (Galeria Bond Street)",
+            lat: -30.02526,
+            lng: -51.2019,
+            whyThisTime: "Fecha às 18h no sábado e não abre domingo.",
+            highlights: "Trios de samosas fritas na hora (carne, frango, ricota ou batata com ervilha), chutney apimentado e masala chai.",
+            images: [
+              "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437407_jpg-11672680.jpeg",
+              "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437418_jpg-11672832.jpeg",
+              "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437405_jpg-11672820.jpeg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Samosa+Bar+Rua+24+de+Outubro+636+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DesSiDWx49v/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/samosa_bar/"
+          },
+          { type: "transit", label: "4 min a pé (2 quadras)" },
+          {
+            type: "logistics",
+            id: "sat-parcao",
+            time: "17:45 - 19:00",
+            title: "Caminhada no Parcão e Jardins do DMAE",
+            neighborhood: "Moinhos de Vento",
+            address: "Rua 24 de Outubro, 200",
+            lat: -30.0275,
+            lng: -51.2032,
+            description: "Pausa nos jardins da Hidráulica e no lago do Parcão antes do jantar.",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Jardins+do+DMAE+Rua+24+de+Outubro+200+Porto+Alegre"
+          },
+          { type: "transit", label: "6 min a pé (3 quadras)" },
+          {
+            type: "stop",
+            id: "stop-6",
+            stopNumber: 6,
+            day: "sat",
+            time: "19:15 - 21:45",
+            name: "OKPO Culture",
+            category: "Jantar Coreano",
+            gradientTheme: "crimson",
+            neighborhood: "Mont'Serrat",
+            address: "Rua Fabrício Pilar, 93",
+            lat: -30.0261,
+            lng: -51.194,
+            whyThisTime: "Jantar de sábado das 19h às 22h30. Fecha domingo.",
+            highlights: "Frango frito coreano (gochujang ou alho e shoyu), bibimbap na pedra quente, tteokbokki e kimchi da casa.",
+            images: [
+              "https://img02.restaurantguru.com/cd5c-Restaurant-Okpo-Culture-food-1.jpg",
+              "https://img02.restaurantguru.com/c8c6-Okpo-Culture-meals.jpg",
+              "https://img02.restaurantguru.com/cd25-Restaurant-Okpo-Culture-interior.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=OKPO+Culture+Rua+Fabricio+Pilar+93+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DbEe-3_R-Yb/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/okpo.culture/"
+          }
+        ],
+
+        sun: [
+          {
+            type: "logistics",
+            id: "sun-breakfast",
+            time: "08:30 - 10:00",
+            title: "Café da manhã no hotel",
+            neighborhood: "Centro Histórico",
+            address: "Rua José Montaury, 20",
+            lat: -30.02895,
+            lng: -51.22776,
+            description: "Café incluso até 10h e saída a pé pela Rua dos Andradas.",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre"
+          },
+          { type: "transit", label: "8 min a pé (700m)" },
+          {
+            type: "stop",
+            id: "stop-7",
+            stopNumber: 7,
+            day: "sun",
+            time: "10:00 - 11:15",
+            name: "Casa de Cultura Mário Quintana",
+            category: "Cultura",
+            gradientTheme: "pink",
+            neighborhood: "Centro Histórico",
+            address: "Rua dos Andradas, 736",
+            lat: -30.03139,
+            lng: -51.23444,
+            whyThisTime: "Abre domingo das 10h às 20h e fecha segunda. Às 10h está vazia para fotos.",
+            groupNote: "Para tirar fotos",
+            highlights: "Antigo Hotel Majestic: passarelas externas, Quarto do Poeta e Jardim Lutzenberger no 5º andar. Entrada gratuita.",
+            images: [
+              "https://destinopoa.com.br/wp-content/uploads/2024/12/MG_6864_21_11zon.webp",
+              "https://destinopoa.com.br/wp-content/uploads/2026/09/MG_6874_13_11zon.webp",
+              "https://www.correiodopovo.com.br/image/contentid/policy:1.1629991:1752948119/ccmq6.jpeg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Casa+de+Cultura+Mario+Quintana+Rua+dos+Andradas+736+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DX43QEux2__/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/ccmarioquintana/"
+          },
+          { type: "transit", label: "4 min a pé (350m)" },
+          {
+            type: "stop",
+            id: "stop-8",
+            stopNumber: 8,
+            day: "sun",
+            time: "11:15 - 12:30",
+            name: "Farol Santander Porto Alegre",
+            category: "Museu",
+            gradientTheme: "teal",
+            neighborhood: "Centro Histórico",
+            address: "Rua Sete de Setembro, 1028 (Praça da Alfândega)",
+            lat: -30.02875,
+            lng: -51.2304,
+            whyThisTime: "Abre domingo das 11h às 18h e fecha segunda. Fica no caminho de volta ao hotel.",
+            highlights: "Átrio com claraboia de vitrais franceses, exposições e Sala da Moeda dentro dos cofres antigos no subsolo.",
+            images: [
+              "https://destinopoa.com.br/wp-content/uploads/2023/10/MG_6895_22_11zon.webp",
+              "https://upload.wikimedia.org/wikipedia/commons/9/90/Interior_do_Santander_Cultural.jpg",
+              "https://upload.wikimedia.org/wikipedia/commons/b/bf/Santander_Cultural-_Porto_Alegre_%2810124897575%29.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Farol+Santander+Rua+Sete+de+Setembro+1028+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/Dbwk4WlRetr/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/farolsantanderpoa/"
+          },
+          { type: "transit", label: "10 min de Uber/carro (4,4 km)" },
+          {
+            type: "stop",
+            id: "stop-9",
+            stopNumber: 9,
+            day: "sun",
+            time: "12:45 - 14:30",
+            name: "Zaituna Árabe",
+            category: "Almoço Árabe",
+            gradientTheme: "emerald",
+            neighborhood: "Higienópolis",
+            address: "Av. Cristóvão Colombo, 3192 / Rua Felicíssimo de Azevedo, 950",
+            lat: -30.0172,
+            lng: -51.18856,
+            whyThisTime: "No domingo abre só no almoço, das 12h às 15h.",
+            highlights: "Térreo do Hotel Swan Tower: pastas com pão pita quente, quibe cru, falafel, shawarma e doces árabes.",
+            images: [
+              "https://img3.restaurantguru.com/rests/original/108_566966474.jpg",
+              "https://1033609670.rsc.cdn77.org/rests/original/105_547248338.jpg",
+              "https://img4.restaurantguru.com/rests/original/103_626829611.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Zaituna+Rua+Felicissimo+de+Azevedo+950+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DdH-Otqu-x-/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/zaitunaarabe/"
+          },
+          { type: "transit", label: "3 min de carro/Uber (1,1 km)" },
+          {
+            type: "logistics",
+            id: "sun-shiga",
+            time: "15:00 - 16:15",
+            title: "Opcional: Praça Shiga ou Brique da Redenção",
+            neighborhood: "Higienópolis / Bom Fim",
+            address: "Av. Cristóvão Colombo esq. Plínio Brasil Milano",
+            lat: -30.0191,
+            lng: -51.1776,
+            description: "Jardim japonês gratuito a 3 min do Zaituna (aberto das 13h às 17h) ou feira de domingo na Redenção.",
+            videoUrl: "https://www.instagram.com/reel/DaBpLRQOI5e/",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Praca+Provincia+de+Shiga+Porto+Alegre"
+          },
+          { type: "transit", label: "4 min de carro/Uber (1,9 km)" },
+          {
+            type: "stop",
+            id: "stop-10",
+            stopNumber: 10,
+            day: "sun",
+            time: "16:30 - 19:00",
+            name: "Ginkgo Café e Floricultura",
+            category: "Café & Floricultura",
+            gradientTheme: "forest",
+            neighborhood: "Auxiliadora",
+            address: "Rua Coronel Bordini, 332",
+            lat: -30.02103,
+            lng: -51.19674,
+            whyThisTime: "Aberto no fim de tarde de domingo.",
+            highlights: "Cafeteria dentro de uma estufa de plantas: cafés especiais gelados e coados, matcha latte, toasts e tortas.",
+            images: [
+              "https://img02.restaurantguru.com/c54d-Cafe-Ginkgo-design.jpg",
+              "https://img4.restaurantguru.com/w550/h367/r7aa-interior-Ginkgo-2026-10-10.jpg",
+              "https://img02.restaurantguru.com/c7d8-Ginkgo-Porto-Alegre-meals.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ginkgo+Cafe+e+Floricultura+Rua+Coronel+Bordini+332+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/somosginkgo",
+            videoPlatform: "Perfil",
+            instaUrl: "https://www.instagram.com/somosginkgo/"
+          },
+          { type: "transit", label: "Escolha livre · Ver aba Planos B" },
+          {
+            type: "logistics",
+            id: "sun-dinner",
+            time: "20:00 - 22:00",
+            title: "Jantar livre de domingo",
+            neighborhood: "Auxiliadora / Centro",
+            address: "Lola Bar CCMQ, Grazie Mille ou Paparoto Cucina",
+            lat: -30.0225,
+            lng: -51.1946,
+            description: "Lola Bar (7º andar da CCMQ, aberto até 23h) ou Paparoto Cucina (19h às 22h). A Grazie Mille fecha em domingos comuns, vale checar véspera de feriado no WhatsApp.",
+            quickLinks: [
+              { label: "Reel Lola Bar", url: "https://www.instagram.com/reel/DarLFc2sDdO/" },
+              { label: "Reel Grazie Mille", url: "https://www.instagram.com/reel/DdHyggWSdLo/" },
+              { label: "Abrir Planos B", tabTarget: "planb" }
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Lola+Bar+Casa+de+Cultura+Mario+Quintana+Porto+Alegre"
+          }
+        ],
+
+        mon: [
+          {
+            type: "logistics",
+            id: "mon-checkout",
+            time: "08:30 - 10:00",
+            title: "Café no hotel e check-out com malas no carro",
+            neighborhood: "Centro → Zona Norte",
+            address: "Rua José Montaury, 20",
+            lat: -30.02895,
+            lng: -51.22776,
+            description: "Carregar tudo no porta-malas para seguir à Zona Norte sem voltar ao Centro.",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre"
+          },
+          { type: "transit", label: "15 min de carro (6,8 km)" },
+          {
+            type: "stop",
+            id: "stop-11",
+            stopNumber: 11,
+            day: "mon",
+            time: "10:30 - 12:15",
+            name: "Griffe Patisserie",
+            category: "Confeitaria",
+            gradientTheme: "indigo",
+            neighborhood: "Passo d'Areia",
+            address: "Rua Jari, 692",
+            lat: -30.0152,
+            lng: -51.1686,
+            whyThisTime: "Seg a sáb das 10h30 às 19h. Fecha domingo.",
+            holidayAlert: {
+              text: "Confirmar horário de Finados no WhatsApp (51) 98122-2408",
+              whatsappUrl: "https://wa.me/5551981222408?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20o%20hor%C3%A1rio%20na%20segunda%20de%20Finados%20(02%2F11)."
+            },
+            groupNote: "Genteeeeeeewe eu tava querendo muito provar!",
+            highlights: "Doces franceses, mil-folhas, entremets, croissants e cafés em deck arborizado.",
+            images: [
+              "https://www.rbsdirect.com.br/imagesrc/35568491.jpg?w=700",
+              "https://griffepatisserie.com.br/blog/encomenda-torta-flores.webp",
+              "https://griffepatisserie.com.br/og-image.webp"
+            ],
+            mapsUrl: "https://maps.app.goo.gl/C7H7aJBMBHnrhy3U6",
+            videoUrl: "https://www.instagram.com/reel/Dc1ojPdNg3j/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/griffepatisserie/"
+          },
+          { type: "transit", label: "4 min de carro (1,2 km)" },
+          {
+            type: "stop",
+            id: "stop-12",
+            stopNumber: 12,
+            day: "mon",
+            time: "12:30 - 14:30",
+            name: "Livraria da Travessa + almoço no Iguatemi",
+            category: "Livraria & Almoço",
+            gradientTheme: "cobalt",
+            neighborhood: "Passo d'Areia",
+            address: "Av. João Wallig, 1800 (Shopping Iguatemi, 2º piso)",
+            lat: -30.0277,
+            lng: -51.1633,
+            whyThisTime: "Livraria e restaurantes abrem no feriado (11h às 21h), com estacionamento coberto para o carro com malas.",
+            highlights: "Dois andares de livros, vinis e café. Boas opções de almoço no shopping: Locale Trattoria, 20BARRA9 e Press Café.",
+            images: [
+              "https://www.rbsdirect.com.br/filestore/0/9/2/2/1/4/5_2c810c5ee052cb2/5412290_757c45e6c47bd3f.jpg?format=webp",
+              "https://www.travessa.com.br/images/QuemSomos-1.jpg",
+              "https://www.travessa.com.br/images/scrollBox/Lojas-1.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Livraria+da+Travessa+Shopping+Iguatemi+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DdPTWOnv8j6/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/livrariadatravessa/"
+          },
+          { type: "transit", label: "3 min de carro (900m)" },
+          {
+            type: "stop",
+            id: "stop-13",
+            stopNumber: 13,
+            day: "mon",
+            time: "14:30 - 16:00",
+            name: "Daiso Japan (Bourbon Country)",
+            category: "Variedades Japonesas",
+            gradientTheme: "violet",
+            neighborhood: "Passo d'Areia",
+            address: "Av. Túlio de Rose, 80 (Bourbon Country, 1º andar)",
+            lat: -30.0218,
+            lng: -51.1626,
+            whyThisTime: "Lojas de shopping abrem das 14h às 20h no feriado.",
+            highlights: "Cerâmicas, utensílios de cozinha, marmitas bento, papelaria e snacks japoneses.",
+            images: [
+              "https://www.jornaldocomercio.com/_midias/jpg/2026/06/05/760x541/1_minuto_varejo_bourbon_country_daiso_japan_dia_abertura_jornal_do_comercio-11876313.jpeg",
+              "https://upload.wikimedia.org/wikipedia/commons/4/4c/Bourbon_Shopping_Country01.JPG",
+              "https://upload.wikimedia.org/wikipedia/commons/7/76/Shopping_Bourbon_Country_-_1.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Daiso+Japan+Bourbon+Shopping+Country+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DZ5dg25isYQ/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/daisojapanbrasil/"
+          },
+          { type: "transit", label: "Saída pela Av. Assis Brasil / BR-290" },
+          {
+            type: "logistics",
+            id: "mon-departure",
+            time: "16:15",
+            title: "Partida rumo a Passo Fundo",
+            neighborhood: "Zona Norte → Estrada",
+            address: "Saída direta pelo Passo d'Areia",
+            lat: -30.0218,
+            lng: -51.1626,
+            description: "Acesso rápido à rodovia ainda com luz do dia, sem cruzar o Centro.",
+            mapsUrl: "https://www.google.com/maps/dir/Bourbon+Shopping+Country,+Porto+Alegre/Passo+Fundo,+RS"
+          }
+        ]
+      },
+
+      planB: [
+        {
+          id: "planb-1",
+          code: "B1",
+          name: "Praça Shiga",
+          bestFor: "Domingo 15h",
+          category: "Parque",
+          gradientTheme: "emerald",
+          neighborhood: "Higienópolis",
+          address: "Av. Cristóvão Colombo esq. Plínio Brasil Milano",
+          lat: -30.0191,
+          lng: -51.1776,
+          hoursNote: "Todos os dias: 9h às 12h e 13h às 17h. Entrada gratuita.",
+          highlights: "Jardim japonês com ponte de pedra, cascata e lago de carpas a 3 min do Zaituna.",
+          images: [
+            "https://destinopoa.com.br/wp-content/uploads/2024/05/15MAR2024_Alex-Rocha_Praca-Provincia-de-Shiga_-2.webp",
+            "https://upload.wikimedia.org/wikipedia/commons/6/6e/Pra%C3%A7a_shiga4.JPG"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Praca+Provincia+de+Shiga+Porto+Alegre",
+          videoUrl: "https://www.instagram.com/reel/DaBpLRQOI5e/",
+          instaUrl: "https://destinopoa.com.br/lugar/praca-provincia-de-shiga/",
+          instaLabel: "Guia"
+        },
+        {
+          id: "planb-2",
+          code: "B2",
+          name: "Lola Bar de Tapas (CCMQ)",
+          bestFor: "Jantar de domingo",
+          category: "Bar & Tapas",
+          gradientTheme: "pink",
+          neighborhood: "Centro Histórico",
+          address: "Rua dos Andradas, 736, 7º andar da CCMQ",
+          lat: -30.03139,
+          lng: -51.23444,
+          hoursNote: "Ter a dom: 12h às 23h. Fecha segunda.",
+          highlights: "Cúpula do antigo Hotel Majestic com vista para o Guaíba, tapas, arroz de costelão e vinhos.",
+          images: [
+            "https://static.wixstatic.com/media/d4ec75_e89bb22b2c0242e89714261417926d27~mv2.jpg/v1/fill/w_1200,h_630,al_c,q_90,enc_auto/lola.jpg",
+            "https://destinopoa.com.br/wp-content/uploads/2024/12/MG_6864_21_11zon-1024x683.webp"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Lola+Bar+Casa+de+Cultura+Mario+Quintana+Porto+Alegre",
+          videoUrl: "https://www.instagram.com/reel/DarLFc2sDdO/",
+          instaUrl: "https://www.instagram.com/lolaccmq/",
+          instaLabel: "@lolaccmq"
+        },
+        {
+          id: "planb-3",
+          code: "B3",
+          name: "Grazie Mille Pizzeria",
+          bestFor: "Sábado à noite ou checar véspera de feriado",
+          category: "Pizza Napolitana",
+          gradientTheme: "terracotta",
+          neighborhood: "Auxiliadora",
+          address: "Rua Felipe Neri, 81 (a 250m da Ginkgo)",
+          lat: -30.0225,
+          lng: -51.1946,
+          hoursNote: "Seg a sáb: 18h às 23h. Fecha em domingos comuns (checar no WhatsApp 51 99286-4664).",
+          highlights: "Pizza napolitana de fermentação lenta, pizza fritta, arancini e cannoli.",
+          images: [
+            "https://destinopoa.com.br/wp-content/uploads/2026/06/Grazie-Mille.webp",
+            "https://destinopoa.com.br/wp-content/uploads/2026/06/SaveClip.App_359351180_17973597665419994_2896402989190285548_n.webp"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Grazie+Mille+Pizzeria+Rua+Felipe+Neri+81+Porto+Alegre",
+          videoUrl: "https://www.instagram.com/reel/DdHyggWSdLo/",
+          instaUrl: "https://www.instagram.com/graziemillepizzeria/",
+          instaLabel: "@graziemillepizzeria"
+        },
+        {
+          id: "planb-4",
+          code: "B4",
+          name: "Sfoglia",
+          bestFor: "Sábado ou domingo à tarde",
+          category: "Folhados",
+          gradientTheme: "amber",
+          neighborhood: "Moinhos de Vento",
+          address: "Rua Félix da Cunha, 1221 (Pátio Ivo Rizzo)",
+          lat: -30.02375,
+          lng: -51.20195,
+          hoursNote: "Qua a dom: 11h às 19h (ou até acabar a fornada). Fecha seg e ter.",
+          highlights: "Vizinha da Freddie's Deli: cruffin de doce de leite, croissants, medialunas e tarte de bergamota.",
+          images: [
+            "https://www.rbsdirect.com.br/filestore/2/2/9/6/8/2/5_cf382159bbd4de9/5286922_0b4e61466c8a745.jpg?format=webp&w=700"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sfoglia+Rua+Felix+da+Cunha+1221+Porto+Alegre",
+          videoUrl: null,
+          instaUrl: "https://www.instagram.com/sfoglia.br/",
+          instaLabel: "@sfoglia.br"
+        },
+        {
+          id: "planb-5",
+          code: "B5",
+          name: "Paparoto Cucina",
+          bestFor: "Jantar de domingo (19h às 22h)",
+          category: "Italiano",
+          gradientTheme: "cobalt",
+          neighborhood: "Boa Vista",
+          address: "Av. Carlos Gomes, 707, 2º andar",
+          lat: -30.0269,
+          lng: -51.1825,
+          hoursNote: "Aberto sábado, domingo (12h às 15h30 e 19h às 22h) e segunda.",
+          highlights: "Casa da chef Dayse Paparoto com estacionamento no prédio: costela 12h com polenta trufada e massas frescas.",
+          images: [
+            "https://revistasaboresdosul.com.br/wp-content/uploads/2026/02/paparoto-e1770037278919.jpeg",
+            "https://revistasaboresdosul.com.br/wp-content/uploads/2026/02/paparoto-e1770037278919-640x473.jpeg"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Paparoto+Cucina+Avenida+Carlos+Gomes+707+Porto+Alegre",
+          videoUrl: null,
+          instaUrl: "https://www.instagram.com/paparotocucina/",
+          instaLabel: "@paparotocucina"
+        },
+        {
+          id: "planb-6",
+          code: "B6",
+          name: "Giozakaya",
+          bestFor: "Sábado à noite",
+          category: "Izakaya",
+          gradientTheme: "crimson",
+          neighborhood: "Chácara das Pedras",
+          address: "Av. Teixeira Mendes, 1151",
+          lat: -30.0367,
+          lng: -51.1657,
+          hoursNote: "Seg a sáb: 18h30 às 00h. Fecha domingo.",
+          highlights: "Gyozas na chapa, takoyaki, katsu sando, lámen e coquetéis com yuzu e matcha.",
+          images: [
+            "https://cms-bomgourmet.s3.amazonaws.com/bomgourmet/2026/09/16204901/Giozakaya.webp",
+            "https://destinopoa.com.br/wp-content/uploads/2026/01/SnapInsta-Ai_3815243421423115390.webp"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Giozakaya+Avenida+Teixeira+Mendes+1151+Porto+Alegre",
+          videoUrl: null,
+          instaUrl: "https://www.instagram.com/giozakaya/",
+          instaLabel: "@giozakaya"
+        }
+      ]
+    };
+
+    (function () {
+      "use strict";
+
+      const VALID_TABS = ["overview", "sat", "sun", "mon", "planb"];
+      const state = {
+        activeTab: getInitialTab(),
+        visited: loadVisited(),
+        onlyPending: false,
+        photoIndex: {},
+        mapOpen: false,
+        mapExpanded: false,
+        focusedPinId: null
+      };
+
+      let map = null;
+      let markersLayer = null;
+      let routesLayer = null;
+      const markerRegistry = new Map();
+      const pinTitleRegistry = new Map();
+      let currentBounds = null;
+      let toastTimer = null;
+
+      function getInitialTab() {
+        const hash = (window.location.hash || "").replace(/^#/, "").trim();
+        return VALID_TABS.includes(hash) ? hash : "overview";
+      }
+
+      function loadVisitedLog() {
+        try {
+          const raw = window.localStorage.getItem(POA_TRIP_DATA.meta.logKey);
+          const parsed = raw ? JSON.parse(raw) : null;
+          return parsed && typeof parsed === "object" ? parsed : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function loadVisited() {
+        const log = loadVisitedLog();
+        if (log) {
+          const derived = new Set();
+          Object.keys(log).forEach((id) => {
+            if (log[id] && log[id].on) derived.add(id);
+          });
+          return derived;
+        }
+        try {
+          const raw = window.localStorage.getItem(POA_TRIP_DATA.meta.storageKey);
+          const parsed = raw ? JSON.parse(raw) : [];
+          const legacy = new Set(Array.isArray(parsed) ? parsed : []);
+          const migrated = {};
+          legacy.forEach((id) => {
+            migrated[id] = { t: 0, on: true };
+          });
+          try {
+            window.localStorage.setItem(POA_TRIP_DATA.meta.logKey, JSON.stringify(migrated));
+          } catch (_) {}
+          return legacy;
+        } catch (_) {
+          return new Set();
+        }
+      }
+
+      function saveVisited() {
+        try {
+          window.localStorage.setItem(
+            POA_TRIP_DATA.meta.storageKey,
+            JSON.stringify(Array.from(state.visited))
+          );
+        } catch (_) {}
+      }
+
+      function recordLocalVisit(id, on) {
+        GroupSync.recordLocal(id, on);
+      }
+
+      function getAllConfirmedStops() {
+        const list = [];
+        ["sat", "sun", "mon"].forEach((d) => {
+          POA_TRIP_DATA.days[d].forEach((item) => {
+            if (item.type === "stop") list.push(item);
+          });
+        });
+        return list;
+      }
+
+      function getDayStops(dayKey) {
+        return (POA_TRIP_DATA.days[dayKey] || []).filter((item) => item.type === "stop");
+      }
+
+      window.handleImgError = function (imgEl) {
+        if (!imgEl) return;
+        try {
+          const fallbacks = JSON.parse(imgEl.getAttribute("data-fallbacks") || "[]");
+          const nextIdx = Number(imgEl.getAttribute("data-fb-idx") || "0");
+          if (nextIdx < fallbacks.length) {
+            imgEl.setAttribute("data-fb-idx", String(nextIdx + 1));
+            imgEl.src = fallbacks[nextIdx];
+            return;
+          }
+        } catch (_) {}
+
+        const theme = imgEl.getAttribute("data-grad") || "cobalt";
+        const cat = imgEl.getAttribute("data-cat") || "Porto Alegre";
+        const hood = imgEl.getAttribute("data-hood") || "RS";
+        const title = imgEl.getAttribute("data-title") || "";
+
+        const poster = document.createElement("div");
+        poster.className = "photo-fallback-poster grad-" + escapeHtml(theme);
+        poster.innerHTML =
+          '<div class="fallback-kicker">' + escapeHtml(cat) + " · " + escapeHtml(hood) + "</div>" +
+          '<div class="fallback-title">' + escapeHtml(title) + "</div>";
+        imgEl.replaceWith(poster);
+      };
+
+      function escapeHtml(str) {
+        return String(str == null ? "" : str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function showToast(msg) {
+        const el = document.getElementById("app-toast");
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove("is-visible"), 2200);
+      }
+
+      function updateProgressUI() {
+        const total = POA_TRIP_DATA.meta.totalConfirmedStops;
+        const allIds = new Set(getAllConfirmedStops().map((s) => s.id));
+        let count = 0;
+        state.visited.forEach((id) => {
+          if (allIds.has(id)) count += 1;
+        });
+        const pct = Math.round((count / total) * 100);
+        const labelEl = document.getElementById("progress-label");
+        const fillEl = document.getElementById("progress-fill");
+        if (labelEl) {
+          labelEl.innerHTML =
+            '<span class="progress-count">' + count + "/" + total + '</span><span class="progress-suffix"> visitados</span>';
+        }
+        if (fillEl) fillEl.style.width = pct + "%";
+      }
+
+      function scrollActiveTabIntoView() {
+        const container = document.getElementById("day-switcher");
+        if (!container) return;
+        const activeBtn = container.querySelector(".day-tab.is-active");
+        if (activeBtn && typeof activeBtn.scrollIntoView === "function") {
+          activeBtn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        }
+      }
+
+      function renderDayTabs() {
+        const container = document.getElementById("day-switcher");
+        if (!container) return;
+        const tabs = [
+          POA_TRIP_DATA.dayThemes.overview,
+          POA_TRIP_DATA.dayThemes.sat,
+          POA_TRIP_DATA.dayThemes.sun,
+          POA_TRIP_DATA.dayThemes.mon,
+          POA_TRIP_DATA.dayThemes.planb
+        ];
+        container.innerHTML = tabs
+          .map((t) => {
+            const active = state.activeTab === t.id;
+            return (
+              '<button type="button" class="day-tab' + (active ? " is-active" : "") +
+              '" style="--tab-color:' + t.color + '" data-tab="' + t.id + '">' +
+              '<span class="tab-dot" style="background:' + t.color + '"></span>' +
+              "<span>" + escapeHtml(t.shortLabel) + "</span></button>"
+            );
+          })
+          .join("");
+      }
+
+      function buildImgTag(images, opts) {
+        const list = Array.isArray(images) && images.length ? images : [""];
+        const idx = opts.photoIdx || 0;
+        const primary = list[idx % list.length];
+        const remaining = list.filter((_, i) => i !== idx % list.length);
+        return (
+          '<img src="' + escapeHtml(primary) +
+          '" alt="' + escapeHtml(opts.title) +
+          '" loading="lazy" referrerpolicy="no-referrer" data-fallbacks="' +
+          escapeHtml(JSON.stringify(remaining)) +
+          '" data-fb-idx="0" data-grad="' + escapeHtml(opts.grad || "cobalt") +
+          '" data-cat="' + escapeHtml(opts.category || "") +
+          '" data-hood="' + escapeHtml(opts.neighborhood || "") +
+          '" data-title="' + escapeHtml(opts.title || "") +
+          '" onerror="window.handleImgError(this)" />'
+        );
+      }
+
+      function renderOverview() {
+        const h = POA_TRIP_DATA.baseHotel;
+        const pIdx = state.photoIndex[h.id] || 0;
+        const isHighlighted = state.mapOpen && state.focusedPinId === h.id;
+
+        const dayCards = ["sat", "sun", "mon"]
+          .map((d) => {
+            const theme = POA_TRIP_DATA.dayThemes[d];
+            const stops = getDayStops(d);
+            const done = stops.filter((s) => state.visited.has(s.id)).length;
+            const stopChips = stops
+              .map((s) => {
+                const checked = state.visited.has(s.id);
+                const shortName = "#" + s.stopNumber + " " + s.name.split(" (")[0].split(" + ")[0];
+                return (
+                  '<button type="button" class="ov-check-chip' + (checked ? " is-checked" : "") +
+                  '" data-toggle-visited="' + s.id + '" aria-pressed="' + (checked ? "true" : "false") + '">' +
+                  '<span class="check-box-ui" aria-hidden="true">✓</span>' +
+                  '<span class="ov-chip-name">' + escapeHtml(shortName) + "</span></button>"
+                );
+              })
+              .join("");
+            return (
+              '<article class="overview-day-card">' +
+              '<button type="button" class="ov-card-head-btn" data-jump-tab="' + d + '">' +
+              '<div class="ov-card-top">' +
+              '<span class="ov-day-pill" style="background:' + theme.softBg + ";color:" + theme.color + '">' +
+              escapeHtml(theme.shortLabel) + "</span>" +
+              '<span class="ov-day-progress">' + done + "/" + stops.length + " visitados</span></div>" +
+              '<div class="ov-card-title-row">' +
+              '<h3 class="ov-card-title">' + escapeHtml(theme.themeTitle) + "</h3>" +
+              '<span class="ov-open-hint">Abrir ▸</span></div></button>' +
+              '<div class="ov-checklist" aria-label="Checklist de ' + escapeHtml(theme.shortLabel) + '">' +
+              stopChips + "</div></article>"
+            );
+          })
+          .join("");
+
+        return (
+          '<article class="hotel-showcase' + (isHighlighted ? " is-highlighted" : "") + '" id="card-' + h.id + '" data-pin-id="' + h.id + '">' +
+          '<div class="hotel-media" data-focus-pin="' + h.id + '">' +
+          buildImgTag(h.images, {
+            photoIdx: pIdx,
+            title: h.name,
+            category: h.category,
+            neighborhood: h.neighborhood,
+            grad: "cobalt"
+          }) +
+          '<span class="hotel-badge-overlay">' + escapeHtml(h.badge) + "</span>" +
+          '<button type="button" class="photo-next-btn" data-cycle-photo="' + h.id + '">Foto ' +
+          ((pIdx % h.images.length) + 1) + "/" + h.images.length + " ▸</button></div>" +
+          '<div class="hotel-body">' +
+          '<div class="hotel-title-row">' +
+          '<h2 class="hotel-title">' + escapeHtml(h.name) + "</h2>" +
+          '<button type="button" class="btn-focus-map" data-focus-pin="' + h.id + '">Ver no mapa</button></div>' +
+          '<p class="hotel-address">' + escapeHtml(h.address) + "</p>" +
+          '<div class="hotel-perks">' +
+          '<span class="perk-chip">' + escapeHtml(h.breakfastNote) + "</span>" +
+          '<span class="perk-chip">' + escapeHtml(h.checkInOut) + "</span></div>" +
+          '<p class="stop-highlights">' + escapeHtml(h.description) + "</p>" +
+          '<div class="action-bar">' +
+          '<a class="action-btn action-btn-maps" href="' + escapeHtml(h.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Google Maps</a>' +
+          '<a class="action-btn" href="' + escapeHtml(h.instaUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(h.instaHandle) + "</a>" +
+          '<a class="action-btn" href="' + escapeHtml(h.websiteUrl) + '" target="_blank" rel="noopener noreferrer">Site</a>' +
+          "</div></div></article>" +
+          '<div class="overview-days-grid">' + dayCards + "</div>" +
+          '<section class="logistics-summary-box">' +
+          "<h3>Resumo da logística</h3>" +
+          '<ul class="logistics-list">' +
+          "<li>Sábado junta Vonny, brechós, delis, Samosa Bar e OKPO, que fecham todos no domingo.</li>" +
+          "<li>Domingo aproveita CCMQ e Farol Santander (fecham segunda) e o almoço do Zaituna (12h às 15h).</li>" +
+          "<li>Segunda faz check-out às 10h direto para o Passo d'Areia, com estacionamento coberto no Iguatemi e saída às 16h15 para Passo Fundo.</li>" +
+          "</ul></section>"
+        );
+      }
+
+      function renderStopCard(stop, theme) {
+        const isVisited = state.visited.has(stop.id);
+        const isHighlighted = state.mapOpen && state.focusedPinId === stop.id;
+        const pIdx = state.photoIndex[stop.id] || 0;
+        const totalPhotos = Array.isArray(stop.images) ? stop.images.length : 0;
+
+        const subLocHtml =
+          Array.isArray(stop.subLocations) && stop.subLocations.length
+            ? '<div class="sublocations-row">' +
+              stop.subLocations
+                .map((sub) =>
+                  sub.url
+                    ? '<a class="subloc-chip" href="' + escapeHtml(sub.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(sub.name) + " ↗</a>"
+                    : '<span class="subloc-chip">' + escapeHtml(sub.name) + "</span>"
+                )
+                .join("") +
+              "</div>"
+            : "";
+
+        const holidayHtml = stop.holidayAlert
+          ? '<div class="callout-holiday"><span>' + escapeHtml(stop.holidayAlert.text) + '</span>' +
+            '<a href="' + escapeHtml(stop.holidayAlert.whatsappUrl) + '" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>'
+          : "";
+
+        return (
+          '<div class="timeline-stop-wrap" style="--day-accent:' + theme.color + ";--day-soft:" + theme.softBg + '">' +
+          '<button type="button" class="timeline-stop-dot' + (isVisited ? " is-visited" : "") +
+          '" data-toggle-visited="' + stop.id + '" title="Marcar como visitado" aria-label="Marcar ' + escapeHtml(stop.name) + ' como visitado">' +
+          (isVisited ? "✓" : "#" + stop.stopNumber) + "</button>" +
+          '<article class="stop-card' +
+          (isVisited ? " is-visited" : "") +
+          (isHighlighted ? " is-highlighted" : "") +
+          '" id="card-' + stop.id + '" data-pin-id="' + stop.id + '">' +
+          '<div class="stop-media" data-focus-pin="' + stop.id + '">' +
+          buildImgTag(stop.images, {
+            photoIdx: pIdx,
+            title: stop.name,
+            category: stop.category,
+            neighborhood: stop.neighborhood,
+            grad: stop.gradientTheme
+          }) +
+          '<div class="media-top-badges">' +
+          '<span class="stop-number-pill">#' + stop.stopNumber + "</span>" +
+          '<span class="category-glass-pill">' + escapeHtml(stop.category) + "</span></div>" +
+          (totalPhotos > 1
+            ? '<button type="button" class="photo-next-btn" data-cycle-photo="' + stop.id + '">Foto ' +
+              ((pIdx % totalPhotos) + 1) + "/" + totalPhotos + " ▸</button>"
+            : "") +
+          "</div>" +
+          '<div class="stop-body">' +
+          '<div class="stop-meta-row"><div class="stop-meta-left">' +
+          '<span class="time-badge">' + escapeHtml(stop.time) + "</span>" +
+          '<span class="neighborhood-pill">' + escapeHtml(stop.neighborhood) + "</span></div>" +
+          '<button type="button" class="btn-focus-map" data-focus-pin="' + stop.id + '">Mapa</button></div>' +
+          '<h3 class="stop-title">' + escapeHtml(stop.name) + "</h3>" +
+          '<p class="stop-address">' + escapeHtml(stop.address) + "</p>" +
+          '<p class="stop-highlights">' + escapeHtml(stop.highlights) + "</p>" +
+          subLocHtml +
+          '<div class="callout-why"><strong>Horário:</strong> ' + escapeHtml(stop.whyThisTime) + "</div>" +
+          (stop.groupNote
+            ? '<div class="callout-group"><strong>Grupo:</strong> "' + escapeHtml(stop.groupNote) + '"</div>'
+            : "") +
+          holidayHtml +
+          '<div class="action-bar">' +
+          '<a class="action-btn action-btn-maps" href="' + escapeHtml(stop.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Google Maps</a>' +
+          (stop.videoUrl
+            ? '<a class="action-btn" href="' + escapeHtml(stop.videoUrl) + '" target="_blank" rel="noopener noreferrer">' +
+              escapeHtml(stop.videoPlatform || "Vídeo") + "</a>"
+            : "") +
+          (stop.instaUrl
+            ? '<a class="action-btn" href="' + escapeHtml(stop.instaUrl) + '" target="_blank" rel="noopener noreferrer">Instagram</a>'
+            : "") +
+          '<button type="button" class="action-btn action-btn-visited' + (isVisited ? " is-checked" : "") +
+          '" data-toggle-visited="' + stop.id + '" aria-pressed="' + (isVisited ? "true" : "false") + '">' +
+          '<span class="check-box-ui" aria-hidden="true">✓</span>' +
+          "<span>" + (isVisited ? "Visitado" : "Marcar visitado") + "</span></button>" +
+          "</div></div></article></div>"
+        );
+      }
+
+      function renderLogisticsCard(item, theme) {
+        const isHighlighted = state.mapOpen && state.focusedPinId === item.id;
+        const quickLinksHtml =
+          Array.isArray(item.quickLinks) && item.quickLinks.length
+            ? item.quickLinks
+                .map((ql) =>
+                  ql.tabTarget
+                    ? '<button type="button" class="action-btn" data-jump-tab="' + escapeHtml(ql.tabTarget) + '">' + escapeHtml(ql.label) + "</button>"
+                    : '<a class="action-btn" href="' + escapeHtml(ql.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(ql.label) + "</a>"
+                )
+                .join("")
+            : "";
+
+        const hasLinks = item.mapsUrl || item.videoUrl || quickLinksHtml;
+
+        return (
+          '<article class="logistics-card' + (isHighlighted ? " is-highlighted" : "") + '" id="card-' + item.id + '" data-focus-pin="' + item.id +
+          '" style="--day-accent:' + theme.color + ";--day-soft:" + theme.softBg + '">' +
+          '<span class="logistics-node"></span>' +
+          '<div class="logistics-head"><div class="logistics-head-badges">' +
+          '<span class="time-badge">' + escapeHtml(item.time) + "</span>" +
+          '<span class="neighborhood-pill">' + escapeHtml(item.neighborhood) + "</span></div>" +
+          '<button type="button" class="btn-focus-map" data-focus-pin="' + item.id + '">Mapa</button></div>' +
+          '<h3 class="logistics-title">' + escapeHtml(item.title) + "</h3>" +
+          '<p class="logistics-desc">' + escapeHtml(item.description) + "</p>" +
+          (hasLinks
+            ? '<div class="logistics-links">' +
+              (item.mapsUrl
+                ? '<a class="action-btn action-btn-maps" href="' + escapeHtml(item.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Maps</a>'
+                : "") +
+              (item.videoUrl
+                ? '<a class="action-btn" href="' + escapeHtml(item.videoUrl) + '" target="_blank" rel="noopener noreferrer">Reel</a>'
+                : "") +
+              quickLinksHtml +
+              "</div>"
+            : "") +
+          "</article>"
+        );
+      }
+
+      function renderDayTimeline(dayKey) {
+        const theme = POA_TRIP_DATA.dayThemes[dayKey];
+        const items = POA_TRIP_DATA.days[dayKey] || [];
+        const dayStops = getDayStops(dayKey);
+        const visitedCount = dayStops.filter((s) => state.visited.has(s.id)).length;
+
+        const timelineHtml = items
+          .filter((item) => (!state.onlyPending || item.type !== "stop" ? true : !state.visited.has(item.id)))
+          .map((item) => {
+            if (item.type === "transit") {
+              return (
+                '<div class="transit-connector" style="--day-accent:' + theme.color + '">' +
+                '<span class="transit-pill">' + escapeHtml(item.label) + "</span></div>"
+              );
+            }
+            if (item.type === "logistics") return renderLogisticsCard(item, theme);
+            return renderStopCard(item, theme);
+          })
+          .join("");
+
+        return (
+          '<section class="day-hero" style="--day-accent:' + theme.color + '">' +
+          '<div class="day-hero-eyebrow"><span>' + escapeHtml(theme.fullTitle) + "</span>" +
+          "<span>" + visitedCount + "/" + dayStops.length + " visitados</span></div>" +
+          '<h2 class="day-hero-title">' + escapeHtml(theme.themeTitle) + "</h2>" +
+          '<p class="day-hero-desc">' + escapeHtml(theme.themeSubtitle) + "</p></section>" +
+          '<div class="filter-bar">' +
+          '<span class="neighborhood-pill">' + escapeHtml(theme.stats) + "</span>" +
+          '<button type="button" class="filter-toggle' + (state.onlyPending ? " is-active" : "") + '" id="btn-filter-pending">' +
+          (state.onlyPending ? "Mostrando pendentes" : "Filtrar pendentes") + "</button></div>" +
+          '<div class="timeline" style="--day-accent:' + theme.color + '">' + timelineHtml + "</div>"
+        );
+      }
+
+      function renderPlanB() {
+        const theme = POA_TRIP_DATA.dayThemes.planb;
+        const cardsHtml = POA_TRIP_DATA.planB
+          .map((spot) => {
+            const pIdx = state.photoIndex[spot.id] || 0;
+            const totalPhotos = Array.isArray(spot.images) ? spot.images.length : 0;
+            const isVisited = state.visited.has(spot.id);
+            const isHighlighted = state.mapOpen && state.focusedPinId === spot.id;
+            return (
+              '<article class="stop-card' + (isVisited ? " is-visited" : "") + (isHighlighted ? " is-highlighted" : "") + '" id="card-' + spot.id + '" data-pin-id="' + spot.id +
+              '" style="--day-accent:' + theme.color + ";--day-soft:" + theme.softBg + '">' +
+              '<div class="stop-media" data-focus-pin="' + spot.id + '">' +
+              buildImgTag(spot.images, {
+                photoIdx: pIdx,
+                title: spot.name,
+                category: spot.category,
+                neighborhood: spot.neighborhood,
+                grad: spot.gradientTheme
+              }) +
+              '<div class="media-top-badges">' +
+              '<span class="stop-number-pill">' + escapeHtml(spot.code) + "</span>" +
+              '<span class="category-glass-pill">' + escapeHtml(spot.category) + "</span></div>" +
+              (totalPhotos > 1
+                ? '<button type="button" class="photo-next-btn" data-cycle-photo="' + spot.id + '">Foto ' +
+                  ((pIdx % totalPhotos) + 1) + "/" + totalPhotos + " ▸</button>"
+                : "") +
+              "</div>" +
+              '<div class="stop-body">' +
+              '<div class="stop-meta-row"><div class="stop-meta-left">' +
+              '<span class="time-badge">' + escapeHtml(spot.bestFor) + "</span>" +
+              '<span class="neighborhood-pill">' + escapeHtml(spot.neighborhood) + "</span></div>" +
+              '<button type="button" class="btn-focus-map" data-focus-pin="' + spot.id + '">Mapa</button></div>' +
+              '<h3 class="stop-title">' + escapeHtml(spot.name) + "</h3>" +
+              '<p class="stop-address">' + escapeHtml(spot.address) + "</p>" +
+              '<p class="stop-highlights">' + escapeHtml(spot.highlights) + "</p>" +
+              '<div class="callout-why"><strong>Funcionamento:</strong> ' + escapeHtml(spot.hoursNote) + "</div>" +
+              '<div class="action-bar">' +
+              '<a class="action-btn action-btn-maps" href="' + escapeHtml(spot.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Google Maps</a>' +
+              (spot.videoUrl
+                ? '<a class="action-btn" href="' + escapeHtml(spot.videoUrl) + '" target="_blank" rel="noopener noreferrer">Reel</a>'
+                : "") +
+              (spot.instaUrl
+                ? '<a class="action-btn" href="' + escapeHtml(spot.instaUrl) + '" target="_blank" rel="noopener noreferrer">' +
+                  escapeHtml(spot.instaLabel || "Instagram") + "</a>"
+                : "") +
+              '<button type="button" class="action-btn action-btn-visited' + (isVisited ? " is-checked" : "") +
+              '" data-toggle-visited="' + spot.id + '" aria-pressed="' + (isVisited ? "true" : "false") + '">' +
+              '<span class="check-box-ui" aria-hidden="true">✓</span>' +
+              "<span>" + (isVisited ? "Visitado" : "Marcar visitado") + "</span></button>" +
+              "</div></div></article>"
+            );
+          })
+          .join("");
+
+        return (
+          '<section class="day-hero" style="--day-accent:' + theme.color + '">' +
+          '<h2 class="day-hero-title">' + escapeHtml(theme.themeTitle) + "</h2>" +
+          '<p class="day-hero-desc">' + escapeHtml(theme.themeSubtitle) + "</p></section>" +
+          '<div class="planb-grid">' + cardsHtml + "</div>"
+        );
+      }
+
+      function renderMainContent() {
+        const pane = document.getElementById("timeline-content");
+        if (!pane) return;
+        if (state.activeTab === "overview") pane.innerHTML = renderOverview();
+        else if (state.activeTab === "planb") pane.innerHTML = renderPlanB();
+        else pane.innerHTML = renderDayTimeline(state.activeTab);
+      }
+
+      /* Map Synchronization & Hybrid Docked + Popup Behavior */
+      function initMap() {
+        const mapEl = document.getElementById("poa-map");
+        if (!mapEl || typeof window.L === "undefined") return;
+
+        map = window.L.map(mapEl, {
+          zoomControl: false,
+          scrollWheelZoom: true,
+          tapTolerance: 18
+        }).setView([-30.0265, -51.2015], 13);
+
+        window.L.control.zoom({ position: "bottomright" }).addTo(map);
+        const esriClean = window.L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+          {
+            attribution: "Tiles &copy; Esri &middot; Dados OSM",
+            maxNativeZoom: 19,
+            maxZoom: 20
+          }
+        );
+        const osmDetailed = window.L.tileLayer(
+          "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+          {
+            attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> &middot; HOT",
+            subdomains: "abc",
+            maxNativeZoom: 19,
+            maxZoom: 20
+          }
+        );
+        const esriSat = window.L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          {
+            attribution: "Tiles &copy; Esri",
+            maxNativeZoom: 19,
+            maxZoom: 20
+          }
+        );
+
+        esriClean.addTo(map);
+        window.L.control.layers(
+          {
+            "Mapa limpo": esriClean,
+            "Ruas detalhadas (OSM)": osmDetailed,
+            "Satélite": esriSat
+          },
+          null,
+          { position: "topright", collapsed: true }
+        ).addTo(map);
+
+        routesLayer = window.L.layerGroup().addTo(map);
+        markersLayer = window.L.layerGroup().addTo(map);
+      }
+
+      function createPinIcon(label, bgColor, extraClass) {
+        const isHotel = extraClass && extraClass.includes("is-hotel");
+        return window.L.divIcon({
+          className: "poa-pin-wrapper",
+          html: '<div class="poa-pin ' + (extraClass || "") + '" style="--pin-bg:' + bgColor + '"><span>' + escapeHtml(label) + "</span></div>",
+          iconSize: isHotel ? [35, 35] : [32, 32],
+          iconAnchor: isHotel ? [17, 33] : [16, 30],
+          popupAnchor: [0, -28]
+        });
+      }
+
+      function getPopupOptions() {
+        return {
+          maxWidth: 230,
+          minWidth: 180,
+          autoPanPaddingTopLeft: [12, 12],
+          autoPanPaddingBottomRight: [12, 16]
+        };
+      }
+
+      function buildPopupHtml(opts) {
+        const isChecked = state.visited.has(opts.id);
+        const checkBtn = opts.canCheck
+          ? '<button type="button" class="popup-btn-visited' + (isChecked ? " is-checked" : "") +
+            '" data-toggle-visited="' + escapeHtml(opts.id) + '">' +
+            '<span class="check-box-ui" aria-hidden="true">✓</span>' +
+            "<span>" + (isChecked ? "Visitado" : "Marcar visitado") + "</span></button>"
+          : "";
+        return (
+          '<div class="map-popup-card">' +
+          '<div class="map-popup-kicker" style="color:' + escapeHtml(opts.color || "#1E293B") + '">' + escapeHtml(opts.kicker) + "</div>" +
+          '<h4 class="map-popup-title">' + escapeHtml(opts.title) + "</h4>" +
+          '<p class="map-popup-addr">' + escapeHtml(opts.address) + "</p>" +
+          '<div class="map-popup-actions">' +
+          checkBtn +
+          '<button type="button" class="popup-btn-card" data-popup-card="' + escapeHtml(opts.id) + '" data-popup-tab="' + escapeHtml(opts.dayTab || "") + '">No roteiro</button>' +
+          '<a class="popup-btn-gmaps" href="' + escapeHtml(opts.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Maps</a>' +
+          "</div></div>"
+        );
+      }
+
+      function getDefaultLegendLabel() {
+        if (state.activeTab === "overview") return "13 paradas + hotel";
+        if (state.activeTab === "planb") return "Planos B (6 locais)";
+        const theme = POA_TRIP_DATA.dayThemes[state.activeTab];
+        return theme ? "Rota · " + theme.shortLabel : "Rota do dia";
+      }
+
+      function setLegendText(text) {
+        const legendEl = document.getElementById("map-legend-text");
+        if (legendEl) legendEl.textContent = text;
+      }
+
+      function syncMapLayers(shouldFit) {
+        if (!map || !markersLayer || !routesLayer) return;
+        markersLayer.clearLayers();
+        routesLayer.clearLayers();
+        markerRegistry.clear();
+        pinTitleRegistry.clear();
+
+        const boundsCoords = [];
+        const hotel = POA_TRIP_DATA.baseHotel;
+
+        const hotelMarker = window.L.marker([hotel.lat, hotel.lng], {
+          icon: createPinIcon("H", "#0F172A", "is-hotel"),
+          zIndexOffset: 900
+        })
+          .bindPopup(
+            buildPopupHtml({
+              id: hotel.id,
+              dayTab: "overview",
+              kicker: "Hotel base",
+              title: hotel.name,
+              address: hotel.address,
+              mapsUrl: hotel.mapsUrl,
+              color: "#0F172A"
+            }),
+            getPopupOptions()
+          )
+          .addTo(markersLayer);
+
+        hotelMarker.on("click", () => {
+          state.focusedPinId = hotel.id;
+          setLegendText(hotel.name);
+          highlightTimelineCard(hotel.id, false);
+        });
+
+        markerRegistry.set(hotel.id, hotelMarker);
+        pinTitleRegistry.set(hotel.id, hotel.name);
+        boundsCoords.push([hotel.lat, hotel.lng]);
+
+        if (state.activeTab === "overview") {
+          setLegendText("13 paradas + hotel");
+          ["sat", "sun", "mon"].forEach((dayKey) => {
+            const theme = POA_TRIP_DATA.dayThemes[dayKey];
+            const pts = [[hotel.lat, hotel.lng]];
+            POA_TRIP_DATA.days[dayKey].forEach((item) => {
+              if (item.type !== "stop") return;
+              const cls = state.visited.has(item.id) ? "is-visited" : "";
+              const labelTitle = "#" + item.stopNumber + " " + item.name;
+              const m = window.L.marker([item.lat, item.lng], {
+                icon: createPinIcon(String(item.stopNumber), theme.color, cls),
+                zIndexOffset: 500 - item.stopNumber
+              })
+                .bindPopup(
+                  buildPopupHtml({
+                    id: item.id,
+                    dayTab: dayKey,
+                    kicker: theme.shortLabel + " · " + item.time,
+                    title: labelTitle,
+                    address: item.address,
+                    mapsUrl: item.mapsUrl,
+                    color: theme.color,
+                    canCheck: true
+                  }),
+                  getPopupOptions()
+                )
+                .addTo(markersLayer);
+              m.on("click", () => {
+                state.focusedPinId = item.id;
+                setLegendText(labelTitle);
+                highlightTimelineCard(item.id, false);
+              });
+              markerRegistry.set(item.id, m);
+              pinTitleRegistry.set(item.id, labelTitle);
+              pts.push([item.lat, item.lng]);
+              boundsCoords.push([item.lat, item.lng]);
+            });
+            window.L.polyline(pts, { color: theme.color, weight: 2.5, opacity: 0.55, dashArray: "6, 8" }).addTo(routesLayer);
+          });
+        } else if (state.activeTab === "planb") {
+          const theme = POA_TRIP_DATA.dayThemes.planb;
+          setLegendText("Planos B (6 locais)");
+          POA_TRIP_DATA.planB.forEach((spot) => {
+            const cls = state.visited.has(spot.id) ? "is-visited" : "";
+            const labelTitle = spot.code + " · " + spot.name;
+            const m = window.L.marker([spot.lat, spot.lng], {
+              icon: createPinIcon(spot.code, theme.color, cls),
+              zIndexOffset: 450
+            })
+              .bindPopup(
+                buildPopupHtml({
+                  id: spot.id,
+                  dayTab: "planb",
+                  kicker: spot.code + " · " + spot.bestFor,
+                  title: spot.name,
+                  address: spot.address,
+                  mapsUrl: spot.mapsUrl,
+                  color: theme.color,
+                  canCheck: true
+                }),
+                getPopupOptions()
+              )
+              .addTo(markersLayer);
+            m.on("click", () => {
+              state.focusedPinId = spot.id;
+              setLegendText(labelTitle);
+              highlightTimelineCard(spot.id, true);
+            });
+            markerRegistry.set(spot.id, m);
+            pinTitleRegistry.set(spot.id, labelTitle);
+            boundsCoords.push([spot.lat, spot.lng]);
+          });
+        } else {
+          const dayKey = state.activeTab;
+          const theme = POA_TRIP_DATA.dayThemes[dayKey];
+          setLegendText("Rota · " + theme.shortLabel);
+          const pts = [];
+
+          POA_TRIP_DATA.days[dayKey].forEach((item) => {
+            if (item.type === "stop") {
+              const cls = state.visited.has(item.id) ? "is-visited" : "";
+              const labelTitle = "#" + item.stopNumber + " " + item.name;
+              const m = window.L.marker([item.lat, item.lng], {
+                icon: createPinIcon(String(item.stopNumber), theme.color, cls),
+                zIndexOffset: 600 - item.stopNumber
+              })
+                .bindPopup(
+                  buildPopupHtml({
+                    id: item.id,
+                    dayTab: dayKey,
+                    kicker: "#" + item.stopNumber + " · " + item.time,
+                    title: item.name,
+                    address: item.address,
+                    mapsUrl: item.mapsUrl,
+                    color: theme.color,
+                    canCheck: true
+                  }),
+                  getPopupOptions()
+                )
+                .addTo(markersLayer);
+              m.on("click", () => {
+                state.focusedPinId = item.id;
+                setLegendText(labelTitle);
+                highlightTimelineCard(item.id, true);
+              });
+              markerRegistry.set(item.id, m);
+              pinTitleRegistry.set(item.id, labelTitle);
+              pts.push([item.lat, item.lng]);
+              boundsCoords.push([item.lat, item.lng]);
+            } else if (item.type === "logistics" && item.lat && item.lng) {
+              pts.push([item.lat, item.lng]);
+              boundsCoords.push([item.lat, item.lng]);
+              const nearHotel = Math.abs(item.lat - hotel.lat) < 0.0005 && Math.abs(item.lng - hotel.lng) < 0.0005;
+              if (!nearHotel) {
+                const sm = window.L.marker([item.lat, item.lng], {
+                  icon: createPinIcon("•", "#475569", ""),
+                  zIndexOffset: 300
+                })
+                  .bindPopup(
+                    buildPopupHtml({
+                      id: item.id,
+                      dayTab: dayKey,
+                      kicker: item.time,
+                      title: item.title,
+                      address: item.address,
+                      mapsUrl: item.mapsUrl,
+                      color: theme.color
+                    }),
+                    getPopupOptions()
+                  )
+                  .addTo(markersLayer);
+                sm.on("click", () => {
+                  state.focusedPinId = item.id;
+                  setLegendText(item.title);
+                  highlightTimelineCard(item.id, true);
+                });
+                markerRegistry.set(item.id, sm);
+                pinTitleRegistry.set(item.id, item.title);
+              } else {
+                markerRegistry.set(item.id, hotelMarker);
+                pinTitleRegistry.set(item.id, item.title);
+              }
+            }
+          });
+
+          if (pts.length > 1) {
+            window.L.polyline(pts, { color: theme.color, weight: 3, opacity: 0.8, dashArray: "7, 8" }).addTo(routesLayer);
+          }
+        }
+
+        if (boundsCoords.length) {
+          currentBounds = window.L.latLngBounds(boundsCoords);
+          if (shouldFit) fitCurrentRoute();
+        }
+      }
+
+      function fitCurrentRoute() {
+        if (!map || !currentBounds) return;
+        map.closePopup();
+        setLegendText(getDefaultLegendLabel());
+        const isSmallScreen = window.innerWidth <= 640;
+        const pad = isSmallScreen ? [26, 26] : [40, 40];
+        map.fitBounds(currentBounds, { padding: pad, maxZoom: 15 });
+      }
+
+      function setMapExpanded(expanded) {
+        state.mapExpanded = Boolean(expanded);
+        document.body.classList.toggle("map-expanded", state.mapExpanded);
+        const expandBtn = document.getElementById("btn-map-expand");
+        if (expandBtn) {
+          expandBtn.setAttribute("aria-pressed", state.mapExpanded ? "true" : "false");
+          expandBtn.textContent = state.mapExpanded ? "Reduzir" : "Ampliar";
+        }
+        if (map) {
+          setTimeout(() => map.invalidateSize(), 260);
+        }
+      }
+
+      function setMapOpen(open) {
+        const nextOpen = Boolean(open);
+        const drawer = document.getElementById("map-drawer");
+        state.mapOpen = nextOpen;
+
+        if (nextOpen) {
+          if (drawer) {
+            drawer.classList.remove("is-closing");
+            drawer.style.transform = "";
+          }
+          document.body.classList.add("map-open");
+          if (map) setTimeout(() => map.invalidateSize(), 40);
+          return;
+        }
+
+        state.focusedPinId = null;
+        if (state.mapExpanded) setMapExpanded(false);
+        document.querySelectorAll(".is-highlighted").forEach((el) => el.classList.remove("is-highlighted"));
+        document.body.classList.remove("map-open");
+        if (drawer) {
+          drawer.classList.remove("is-closing");
+          drawer.style.transform = "";
+        }
+        if (map) {
+          map.closePopup();
+          setLegendText(getDefaultLegendLabel());
+          setTimeout(() => {
+            map.invalidateSize();
+            fitCurrentRoute();
+          }, 50);
+        }
+      }
+
+      function panToPinWithOffset(latlng, zoom) {
+        if (!map) return;
+        const targetZoom = zoom || 16;
+        if (typeof map.project === "function" && typeof map.unproject === "function" && typeof map.getSize === "function") {
+          const size = map.getSize();
+          const sheetH = size && size.y ? size.y : 300;
+          const offsetY = Math.max(34, Math.min(68, Math.round(sheetH * 0.2)));
+          const pt = map.project(latlng, targetZoom);
+          const shiftedPt = [pt.x, pt.y - offsetY];
+          const shiftedLatLng = map.unproject(shiftedPt, targetZoom);
+          map.flyTo(shiftedLatLng, targetZoom, { duration: 0.4 });
+        } else {
+          map.flyTo(latlng, targetZoom, { duration: 0.4 });
+        }
+      }
+
+      function focusPinOnMap(pinId) {
+        if (!map) return;
+        state.focusedPinId = pinId;
+        const wasClosed = !state.mapOpen;
+        if (wasClosed) setMapOpen(true);
+
+        const pinLabel = pinTitleRegistry.get(pinId);
+        if (pinLabel) setLegendText(pinLabel);
+
+        const cardEl = document.getElementById("card-" + pinId);
+        if (cardEl) {
+          setTimeout(() => cardEl.scrollIntoView({ behavior: "smooth", block: "start" }), 65);
+        }
+
+        const runFocus = () => {
+          map.invalidateSize();
+          const m = markerRegistry.get(pinId);
+          if (m) {
+            panToPinWithOffset(m.getLatLng(), 16);
+            m.openPopup();
+          }
+        };
+
+        setTimeout(runFocus, wasClosed ? 90 : 40);
+        if (wasClosed) setTimeout(() => map.invalidateSize(), 310);
+      }
+
+      function highlightTimelineCard(cardId, shouldScroll) {
+        document.querySelectorAll(".is-highlighted").forEach((el) => el.classList.remove("is-highlighted"));
+        const el = document.getElementById("card-" + cardId);
+        if (!el) return;
+        el.classList.add("is-highlighted");
+        if (shouldScroll) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      window.scrollToStopCard = function (cardId, targetTab) {
+        if (state.mapExpanded && window.innerWidth <= 640) {
+          setMapExpanded(false);
+        }
+        if (targetTab && VALID_TABS.includes(targetTab) && state.activeTab !== targetTab) {
+          switchTab(targetTab, false);
+        }
+        setTimeout(() => {
+          const el = document.getElementById("card-" + cardId);
+          if (el) {
+            state.focusedPinId = cardId;
+            highlightTimelineCard(cardId, false);
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 75);
+      };
+
+      function switchTab(nextTab, scrollTop) {
+        if (!VALID_TABS.includes(nextTab)) return;
+        state.activeTab = nextTab;
+        history.replaceState(null, "", "#" + nextTab);
+        renderDayTabs();
+        scrollActiveTabIntoView();
+        renderMainContent();
+        syncMapLayers(true);
+        if (scrollTop !== false) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function handleWhatsAppShare() {
+        const allStops = getAllConfirmedStops();
+        const done = allStops.filter((s) => state.visited.has(s.id)).length;
+        const lines = [
+          "*Roteiro Porto Alegre · 31/10 a 02/11*",
+          "Hotel: Fast 10 City (Rua José Montaury, 20)",
+          "Visitados: " + done + "/" + allStops.length,
+          ""
+        ];
+        const days = ["sat", "sun", "mon"].includes(state.activeTab) ? [state.activeTab] : ["sat", "sun", "mon"];
+        days.forEach((d) => {
+          lines.push("*" + POA_TRIP_DATA.dayThemes[d].shortLabel + "*");
+          getDayStops(d).forEach((s) => {
+            lines.push((state.visited.has(s.id) ? "[x] " : "[ ] ") + s.time + " · #" + s.stopNumber + " " + s.name);
+          });
+          lines.push("");
+        });
+        if (window.location.href.startsWith("http")) lines.push(window.location.href);
+        window.open("https://wa.me/?text=" + encodeURIComponent(lines.join("\\n")), "_blank", "noopener,noreferrer");
+        showToast("Resumo aberto no WhatsApp");
+      }
+
+      function bindDrawerTouchGestures() {
+        const header = document.getElementById("map-drawer-header");
+        const drawer = document.getElementById("map-drawer");
+        if (!header || !drawer) return;
+
+        let startY = 0;
+        let currentDeltaY = 0;
+        let tracking = false;
+
+        header.addEventListener(
+          "touchstart",
+          (e) => {
+            if (!state.mapOpen || e.touches.length !== 1) return;
+            if (e.target.closest("button")) return;
+            startY = e.touches[0].clientY;
+            currentDeltaY = 0;
+            tracking = true;
+            drawer.classList.add("is-dragging");
+          },
+          { passive: true }
+        );
+
+        header.addEventListener(
+          "touchmove",
+          (e) => {
+            if (!tracking || e.touches.length !== 1) return;
+            currentDeltaY = e.touches[0].clientY - startY;
+            if (currentDeltaY > 0) {
+              drawer.style.transform = "translateY(" + Math.round(currentDeltaY) + "px)";
+            } else {
+              drawer.style.transform = "translateY(" + Math.round(currentDeltaY * 0.25) + "px)";
+            }
+          },
+          { passive: true }
+        );
+
+        const finishDrag = () => {
+          if (!tracking) return;
+          tracking = false;
+          drawer.classList.remove("is-dragging");
+          drawer.style.transform = "";
+
+          if (currentDeltaY > 52) {
+            if (state.mapExpanded && currentDeltaY < 130) {
+              setMapExpanded(false);
+            } else {
+              setMapOpen(false);
+            }
+          } else if (currentDeltaY < -38 && !state.mapExpanded) {
+            setMapExpanded(true);
+          }
+          currentDeltaY = 0;
+        };
+
+        header.addEventListener("touchend", finishDrag, { passive: true });
+        header.addEventListener("touchcancel", finishDrag, { passive: true });
+      }
+
+      function bindEvents() {
+        document.addEventListener("click", (e) => {
+          const popupCardBtn = e.target.closest("[data-popup-card]");
+          if (popupCardBtn) {
+            e.stopPropagation();
+            window.scrollToStopCard(
+              popupCardBtn.getAttribute("data-popup-card"),
+              popupCardBtn.getAttribute("data-popup-tab")
+            );
+            return;
+          }
+          const tabBtn = e.target.closest("[data-tab]");
+          if (tabBtn) {
+            switchTab(tabBtn.getAttribute("data-tab"), true);
+            return;
+          }
+          const jumpBtn = e.target.closest("[data-jump-tab]");
+          if (jumpBtn) {
+            switchTab(jumpBtn.getAttribute("data-jump-tab"), true);
+            return;
+          }
+          const cycleBtn = e.target.closest("[data-cycle-photo]");
+          if (cycleBtn) {
+            e.stopPropagation();
+            const id = cycleBtn.getAttribute("data-cycle-photo");
+            state.photoIndex[id] = (state.photoIndex[id] || 0) + 1;
+            renderMainContent();
+            return;
+          }
+          const visitedBtn = e.target.closest("[data-toggle-visited]");
+          if (visitedBtn) {
+            e.stopPropagation();
+            const inPopup = Boolean(visitedBtn.closest(".leaflet-popup"));
+            const id = visitedBtn.getAttribute("data-toggle-visited");
+            const turnedOn = !state.visited.has(id);
+            if (turnedOn) {
+              state.visited.add(id);
+              showToast("Marcado como visitado");
+            } else {
+              state.visited.delete(id);
+              showToast("Parada desmarcada");
+            }
+            recordLocalVisit(id, turnedOn);
+            saveVisited();
+            updateProgressUI();
+            renderMainContent();
+            syncMapLayers(false);
+            GroupSync.queuePush();
+            if (inPopup) {
+              const m = markerRegistry.get(id);
+              if (m) m.openPopup();
+            }
+            return;
+          }
+          const filterBtn = e.target.closest("#btn-filter-pending");
+          if (filterBtn) {
+            state.onlyPending = !state.onlyPending;
+            renderMainContent();
+            return;
+          }
+          if (e.target.closest("a[href]")) return;
+
+          if (window.getSelection && String(window.getSelection()).trim().length > 0) return;
+
+          const destEl = e.target.closest("[data-focus-pin], [data-pin-id]");
+          if (destEl) {
+            const pinId = destEl.getAttribute("data-focus-pin") || destEl.getAttribute("data-pin-id");
+            highlightTimelineCard(pinId, false);
+            focusPinOnMap(pinId);
+          }
+        });
+
+        const fitBtn = document.getElementById("btn-map-fit");
+        if (fitBtn) fitBtn.addEventListener("click", () => fitCurrentRoute());
+
+        const expandBtn = document.getElementById("btn-map-expand");
+        if (expandBtn) expandBtn.addEventListener("click", () => setMapExpanded(!state.mapExpanded));
+
+        const closeBtn = document.getElementById("btn-map-close");
+        if (closeBtn) closeBtn.addEventListener("click", () => setMapOpen(false));
+
+        const drawer = document.getElementById("map-drawer");
+        if (drawer) {
+          drawer.addEventListener("transitionend", (e) => {
+            if ((e.propertyName === "transform" || e.propertyName === "height") && map) {
+              map.invalidateSize();
+            }
+          });
+        }
+
+        bindDrawerTouchGestures();
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && state.mapOpen) setMapOpen(false);
+        });
+
+        const shareBtn = document.getElementById("btn-share-wa");
+        if (shareBtn) shareBtn.addEventListener("click", handleWhatsAppShare);
+
+        window.addEventListener("hashchange", () => {
+          const next = getInitialTab();
+          if (next !== state.activeTab) switchTab(next, false);
+        });
+
+        let resizeTimer = null;
+        const onViewportChange = () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            if (map) map.invalidateSize();
+          }, 120);
+        };
+        window.addEventListener("resize", onViewportChange, { passive: true });
+        window.addEventListener("orientationchange", onViewportChange, { passive: true });
+
+        const headerEl = document.querySelector(".app-header");
+        if (headerEl && typeof window.ResizeObserver !== "undefined") {
+          const ro = new window.ResizeObserver((entries) => {
+            for (const entry of entries) {
+              document.documentElement.style.setProperty("--header-h", Math.ceil(entry.target.getBoundingClientRect().height) + "px");
+            }
+          });
+          ro.observe(headerEl);
+        }
+      }
+
+      const GroupSync = (function () {
+        const cfg = POA_TRIP_DATA.meta.groupSync;
+        const validIds = new Set(getAllConfirmedStops().map((stop) => stop.id));
+        let log = {};
+        let deviceId;
+        let pushTimer = null;
+        let retryTimer = null;
+        let eventSource = null;
+        let inFlight = null;
+        let rerun = false;
+        let retryDelay = 2000;
+
+        function validEntry(entry) {
+          return entry && Number.isSafeInteger(entry.t) && entry.t >= 0 &&
+            typeof entry.on === "boolean" &&
+            (entry.d === undefined || (typeof entry.d === "string" && entry.d.length <= 100));
+        }
+
+        // Total ordering also resolves two devices changing a stop in the same millisecond.
+        function compare(a, b) {
+          if (!b) return 1;
+          const left = String(a.d || "");
+          const right = String(b.d || "");
+          return a.t - b.t || (left > right ? 1 : left < right ? -1 : 0) ||
+            Number(a.on) - Number(b.on);
+        }
+
+        function mergeEntries(incoming) {
+          let changed = false;
+          for (const id of validIds) {
+            const entry = incoming && incoming[id];
+            if (validEntry(entry) && compare(entry, log[id]) > 0) {
+              log[id] = { t: entry.t, on: entry.on, d: entry.d || "" };
+              changed = true;
+            }
+          }
+          return changed;
+        }
+
+        mergeEntries(loadVisitedLog());
+
+        function persist() {
+          // Keep the in-memory log usable when browser storage is unavailable or full.
+          try {
+            window.localStorage.setItem(POA_TRIP_DATA.meta.logKey, JSON.stringify(log));
+          } catch (_) {}
+        }
+
+        function getDeviceId() {
+          if (deviceId) return deviceId;
+          try { deviceId = window.localStorage.getItem(POA_TRIP_DATA.meta.deviceKey); } catch (_) {}
+          if (!deviceId) {
+            deviceId = window.crypto.randomUUID();
+            try { window.localStorage.setItem(POA_TRIP_DATA.meta.deviceKey, deviceId); } catch (_) {}
+          }
+          return deviceId;
+        }
+
+        function setStatus(next) {
+          const pill = document.getElementById("sync-pill");
+          const label = document.getElementById("sync-label");
+          if (!pill || !label) return;
+          pill.classList.remove("is-ok", "is-pending", "is-off");
+          pill.classList.add(next === "ok" ? "is-ok" : next === "pending" ? "is-pending" : "is-off");
+          label.textContent = next === "ok" ? "Grupo atualizado" : next === "pending" ? "Sincronizando…" : "Modo local";
+          pill.title = next === "ok" ? "Última sincronização concluída. Atualizações por notificação e consulta a cada 60 segundos." :
+            next === "pending" ? "Enviando/atualizando estado do grupo…" :
+            "Sincronização indisponível. As alterações serão reenviadas quando a conexão voltar.";
+        }
+
+        function refresh(silent) {
+          state.visited = new Set(Object.keys(log).filter((id) => log[id].on));
+          persist();
+          saveVisited();
+          updateProgressUI();
+          renderMainContent();
+          syncMapLayers(false);
+          if (!silent) showToast("Atualizado por outro aparelho do grupo");
+        }
+
+        function recordLocal(id, on) {
+          if (!validIds.has(id)) return;
+          const latest = Math.max(0, ...Object.values(log).map((entry) => entry.t));
+          log[id] = { t: Math.max(Date.now(), latest + 1), on: Boolean(on), d: getDeviceId() };
+          persist();
+          setStatus("pending");
+          if (inFlight) rerun = true;
+        }
+
+        async function request(url, options = {}) {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 12000);
+          try {
+            const response = await fetch(url, { ...options, signal: controller.signal });
+            if (!response.ok) throw new Error("sync HTTP " + response.status);
+            // Read inside the timeout, including a server that stalls after headers.
+            return await response.text();
+          } finally {
+            clearTimeout(timer);
+          }
+        }
+
+        function needsPush(remote) {
+          return Object.keys(log).some((id) => !validEntry(remote[id]) || compare(log[id], remote[id]) > 0);
+        }
+
+        function scheduleRetry() {
+          clearTimeout(retryTimer);
+          retryTimer = setTimeout(() => reconcile(true), retryDelay);
+          retryDelay = Math.min(retryDelay * 2, 60000);
+        }
+
+        async function reconcile(silent = false) {
+          if (!cfg) return;
+          if (inFlight) {
+            rerun = true;
+            return inFlight;
+          }
+          inFlight = (async () => {
+            try {
+              do {
+                rerun = false;
+                const text = await request(cfg.snapshotUrl + "?t=" + Date.now(), { cache: "no-store" });
+                const remote = JSON.parse(text);
+                if (!remote || !remote.stops || typeof remote.stops !== "object" || Array.isArray(remote.stops)) {
+                  throw new Error("Invalid group snapshot");
+                }
+                if (mergeEntries(remote.stops)) refresh(silent);
+                if (needsPush(remote.stops)) {
+                  setStatus("pending");
+                  // Capture the payload now. Edits during the request trigger another pass.
+                  const body = JSON.stringify({ v: 1, stops: log, by: getDeviceId() });
+                  await request(cfg.snapshotUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body });
+                  request(cfg.topic, { method: "POST", body: "roteiro-update" }).catch(() => {});
+                  rerun = true; // Read back and repair an overlapping snapshot write.
+                }
+              } while (rerun);
+              clearTimeout(retryTimer);
+              retryDelay = 2000;
+              setStatus("ok");
+            } catch (_) {
+              setStatus("off");
+              scheduleRetry();
+            } finally {
+              inFlight = null;
+            }
+          })();
+          return inFlight;
+        }
+
+        function queuePush() {
+          if (!cfg) return;
+          clearTimeout(pushTimer);
+          pushTimer = setTimeout(() => reconcile(true), 700);
+        }
+
+        function subscribe() {
+          if (!window.EventSource || eventSource) return;
+          // EventSource reconnects automatically; polling/retries work independently.
+          eventSource = new EventSource(cfg.topic + "/sse");
+          eventSource.onmessage = () => reconcile(false);
+          eventSource.onopen = () => reconcile(true);
+        }
+
+        function init() {
+          if (!cfg) return;
+          setStatus("pending");
+          reconcile(false);
+          subscribe();
+          setInterval(() => {
+            if (!document.hidden) reconcile(false);
+          }, 60000);
+          document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) reconcile(false);
+          });
+          window.addEventListener("online", () => reconcile(false));
+          window.addEventListener("storage", (event) => {
+            if (event.key === POA_TRIP_DATA.meta.logKey) {
+              if (mergeEntries(loadVisitedLog())) refresh(true);
+              queuePush();
+            }
+          });
+        }
+
+        return { init, queuePush, recordLocal };
+      })();
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updateProgressUI();
+        renderDayTabs();
+        scrollActiveTabIntoView();
+        renderMainContent();
+        initMap();
+        syncMapLayers(true);
+        bindEvents();
+        GroupSync.init();
+      });
+    })();
+  </script>
+</body>
+</html>
