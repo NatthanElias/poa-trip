@@ -964,6 +964,73 @@
       background: var(--border-strong);
     }
 
+    .rating-pill {
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      background: #FEF3C7;
+      color: #92400E;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .morning-choice {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .morning-choice button {
+      padding: 12px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      color: var(--ink-secondary);
+      background: var(--bg-surface);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .morning-choice button[aria-pressed="true"] {
+      border-color: var(--day-accent);
+      color: var(--day-accent);
+      background: #EEF2FF;
+      box-shadow: inset 0 0 0 1px var(--day-accent);
+    }
+
+    .optional-stop {
+      padding: 14px;
+      margin: 16px 0;
+      border: 1px dashed #D97706;
+      border-radius: 12px;
+      background: #FFFBEB;
+    }
+
+    .optional-eyebrow {
+      color: #92400E;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.45;
+      margin: 0 0 12px;
+    }
+
+    .optional-layout {
+      display: grid;
+      grid-template-columns: minmax(88px, 120px) minmax(0, 1fr);
+      gap: 12px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .optional-layout h4 { margin: 0 0 8px; font-size: 15px; }
+    .optional-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .optional-photo { position: relative; min-height: 150px; overflow: hidden; border-radius: 8px; }
+    .optional-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .optional-photo .photo-next-btn { left: 5px; right: 5px; bottom: 5px; font-size: 10px; }
+
     .schedule-heading {
       margin: 22px 0 12px;
       color: var(--ink-primary);
@@ -2044,31 +2111,31 @@
           id: "sat",
           shortLabel: "Sábado (31/10)",
           fullTitle: "Dia 1 · Sábado, 31/10",
-          themeTitle: "Almoço, compras, café e passeio ao ar livre",
-          themeSubtitle: "Descanso no hotel, delis, brechós e Vonny antes das 17h, Samosa, Parcão e jantar coreano.",
+          themeTitle: "Check-in ➔ Almoço Árabe ➔ Garimpo & Compras ➔ Patisserie ➔ Jantar Coreano",
+          themeSubtitle: "Al Nur no almoço, brechós e Vonny, Griffe como destino principal com parada indiana opcional, descanso e OKPO.",
           color: "#D94E28",
           softBg: "#FFF3EE",
-          stats: "6 blocos · 6 paradas para marcar"
+          stats: "6 blocos · Griffe principal, Samosa opcional"
         },
         sun: {
           id: "sun",
           shortLabel: "Domingo (01/11)",
           fullTitle: "Dia 2 · Domingo, 01/11",
-          themeTitle: "Cultura, almoço árabe, Ginkgo e Bourbon Country",
-          themeSubtitle: "Passeio a pé no Centro, Zaituna, Praça Shiga ou Brique, café e shopping com jantar.",
+          themeTitle: "Farol Santander ➔ Almoço Árabe ➔ Ar Livre ➔ Casa de Cultura ➔ Daiso + LOOF",
+          themeSubtitle: "Farol pela manhã, Zaituna na Rua Olinda, Brique ou Praça Shiga, café no Lola Bar e jantar no Bourbon Country.",
           color: "#0F766E",
           softBg: "#ECFDF8",
-          stats: "6 blocos · 5 paradas para marcar"
+          stats: "6 blocos · Cultura, ar livre e jantar no LOOF"
         },
         mon: {
           id: "mon",
           shortLabel: "Segunda (02/11)",
           fullTitle: "Dia 3 · Segunda, 02/11 (Finados)",
-          themeTitle: "Orla, Iguatemi, doce de despedida e estrada",
-          themeSubtitle: "Check-out com malas no carro, caminhada na Orla, almoço e livraria no Iguatemi, Griffe e partida às 16h30.",
+          themeTitle: "Check-out ➔ Orla ou Iguatemi ➔ Sanduíches nas Delis ➔ Viagem de Volta",
+          themeSubtitle: "Malas no porta-malas, escolha do passeio matinal, almoço de despedida e partida às 13h30 para Passo Fundo.",
           color: "#4338CA",
           softBg: "#EEF2FF",
-          stats: "5 blocos · 2 paradas para marcar"
+          stats: "4 blocos · Duas opções pela manhã · Retorno às 13h30"
         },
         planb: {
           id: "planb",
@@ -2082,11 +2149,11 @@
 
       baseHotel: {
         id: "hotel-fast10",
-        name: "Fast 10 City Hotel",
+        name: "Fast 10 City Hotel Porto Alegre",
         badge: "Hotel base",
         category: "Hospedagem",
         neighborhood: "Centro Histórico",
-        address: "Rua José Montaury, 20, Centro Histórico",
+        address: "Rua José Montaury, 20 - Centro Histórico, Porto Alegre - RS",
         lat: -30.02895,
         lng: -51.22776,
         breakfastNote: "Café incluso (07h às 10h)",
@@ -2108,101 +2175,64 @@
           {
             type: "logistics",
             id: "sat-checkin",
-            time: "08:30 – 11:45",
-            title: "Check-in Primeiro & Descanso",
+            time: "08:30 – 11:30",
+            title: "Check-in e Descanso",
             neighborhood: "Centro Histórico",
             address: "Rua José Montaury, 20",
             lat: -30.02895,
             lng: -51.22776,
-            description: "Fast 10 City Hotel (Rua José Montaury, 20). Descansar da viagem e deixar as malas na recepção se o quarto ainda não estiver disponível; check-in regular às 14h.",
+            description: "Chegada ao Fast 10 City Hotel, guardar malas e descansar antes de sair para o almoço.",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre",
             scheduleBlock: {
               number: 1,
-              title: "Check-in Primeiro & Descanso",
-              time: "08:30 – 11:45"
-            }
+              title: "Check-in e Descanso",
+              time: "08:30 – 11:30"
+            },
+            hoursNote: "Chegada pela manhã; check-in regular às 14h, sujeito à disponibilidade antecipada."
           },
           {
             type: "transit",
-            label: "Saída do hotel para o almoço"
+            label: "Saída para o almoço árabe"
           },
           {
             type: "stop",
-            id: "stop-3",
-            stopNumber: 1,
-            day: "sat",
-            time: "12:00 – 13:30",
-            name: "Freddie's Deli (Almoço parte 1)",
-            category: "Deli",
+            id: "stop-14",
+            name: "Al Nur Restaurante Árabe",
+            category: "Almoço Árabe",
             gradientTheme: "amber",
-            neighborhood: "Moinhos de Vento",
-            address: "Rua Félix da Cunha, 1221, loja E (Pátio Ivo Rizzo)",
-            lat: -30.02367,
-            lng: -51.20202,
-            whyThisTime: "Sábado direto das 11h às 19h. Fecha domingo.",
-            highlights: "Charcutaria própria na janela do Pátio Ivo Rizzo: sanduíche de pastrami defumado na casa, roast beef no jus e cubano.",
+            neighborhood: "Santa Cecília / Bom Fim",
+            address: "Av. Protásio Alves, 616",
+            lat: -30.038551,
+            lng: -51.202008,
+            rating: "4,5 ★",
+            whyThisTime: "Sábado: 11h30 às 15h. Almoço antes do garimpo nos brechós.",
+            highlights: "Culinária árabe tradicional, a cerca de 3 minutos de carro dos brechós da Av. João Pessoa.",
             images: [
-              "https://www.jornaldocomercio.com/_midias/jpg/2025/12/29/800x600/1_img_20251229_wa0061-11604190.jpg",
-              "https://www.jornaldocomercio.com/_midias/jpg/2025/12/29/800x600/1_img_20251229_wa0044-11604202.jpg",
-              "https://destinopoa.com.br/wp-content/uploads/2026/01/Captura-de-Tela-2026-01-22-as-15.38.26.webp"
+              "https://alnur.com.br/wp-content/uploads/2020/07/Al-Nur-Rodada-02.jpg",
+              "https://alnur.com.br/wp-content/uploads/2021/08/Beringela-al-Kaplan.jpg"
             ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Freddie%27s+Deli+Rua+Felix+da+Cunha+1221+Porto+Alegre",
-            videoUrl: "https://www.instagram.com/reel/Dal1CIXOCHf/",
-            videoPlatform: "Reel",
-            instaUrl: "https://www.instagram.com/freddies.deli/",
-            groupNote: "Se o grupo quiser um almoço sentado com massas, a Sfoglia Massas fica ao lado, na Rua Félix da Cunha, 1221.",
-            subLocations: [
-              {
-                name: "Sfoglia Massas · alternativa para almoço sentado",
-                url: "https://www.google.com/maps/search/?api=1&query=Sfoglia+Rua+Felix+da+Cunha+1221+Porto+Alegre"
-              }
-            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Al%20Nur%20Av.%20Prot%C3%A1sio%20Alves%20616%20Porto%20Alegre",
+            instaUrl: "https://www.instagram.com/arabe_alnur/",
+            websiteUrl: "https://alnur.com.br/",
+            time: "11:45 – 13:15",
             scheduleBlock: {
               number: 2,
-              title: "Almoço de Sábado",
-              time: "12:00 – 13:30"
-            }
-          },
-          {
-            type: "stop",
-            id: "stop-4",
-            stopNumber: 2,
+              title: "Almoço no Al Nur Restaurante Árabe",
+              time: "11:45 – 13:15"
+            },
             day: "sat",
-            time: "12:00 – 13:30",
-            name: "Louie's Italian Deli (Almoço parte 2)",
-            category: "Panuozzo & Sorvete",
-            gradientTheme: "terracotta",
-            neighborhood: "Auxiliadora",
-            address: "Rua 24 de Outubro, 1600",
-            lat: -30.02153,
-            lng: -51.19282,
-            whyThisTime: "Sábado direto das 11h às 19h. Fecha domingo.",
-            highlights: "Dividir panuozzo na massa de pizza (Bologna com mortadela, stracciatella e pistache) + soft serve e cookies da casa.",
-            images: [
-              "https://www.louiesdeli.com.br/assets/img/bologna.webp",
-              "https://www.louiesdeli.com.br/assets/img/soft.webp",
-              "https://www.louiesdeli.com.br/assets/img/fachada.webp"
-            ],
-            mapsUrl: "https://maps.app.goo.gl/P2cn6CbwTi1MSyHYA",
-            videoUrl: "https://www.instagram.com/reel/DdOx3uUAcDS/",
-            videoPlatform: "Reel",
-            instaUrl: "https://www.instagram.com/louies_deli/",
-            scheduleBlock: {
-              number: 2,
-              title: "Almoço de Sábado",
-              time: "12:00 – 13:30"
-            }
+            stopNumber: 1
           },
           {
             type: "transit",
-            label: "Deslocamento para compras e garimpo"
+            label: "Al Nur → brechós · cerca de 3 min de carro"
           },
           {
             type: "stop",
             id: "stop-2",
-            stopNumber: 3,
+            stopNumber: 2,
             day: "sat",
-            time: "13:45 – 16:00",
+            time: "13:30 – 16:00",
             name: "5 Brechós da Av. João Pessoa",
             category: "Brechós",
             gradientTheme: "terracotta",
@@ -2210,7 +2240,7 @@
             address: "Av. João Pessoa, 1236 a 1370",
             lat: -30.04315,
             lng: -51.21395,
-            whyThisTime: "Compras e garimpo entre 13h45 e 16h, junto com a Vonny. Os brechós e a Vonny fecham às 17h no sábado.",
+            whyThisTime: "Compras e garimpo das 13h30 às 16h, junto com a Vonny. Lojas fecham às 17h no sábado e não abrem domingo ou segunda.",
             highlights: "Casacos, couro e peças vintage em sequência na mesma calçada.",
             subLocations: [
               {
@@ -2245,16 +2275,16 @@
             instaUrl: "https://www.instagram.com/emiliabrecho/",
             scheduleBlock: {
               number: 3,
-              title: "Passeio da Tarde 1 (Compras & Garimpo)",
-              time: "13:45 – 16:00"
+              title: "Garimpo nos Brechós + Vonny Cosméticos",
+              time: "13:30 – 16:00"
             }
           },
           {
             type: "stop",
             id: "stop-1",
-            stopNumber: 4,
+            stopNumber: 3,
             day: "sat",
-            time: "13:45 – 16:00",
+            time: "13:30 – 16:00",
             name: "Vonny Cosméticos",
             category: "Cosméticos",
             gradientTheme: "rose",
@@ -2262,7 +2292,7 @@
             address: "Rua dos Andradas, 1035",
             lat: -30.03056,
             lng: -51.23139,
-            whyThisTime: "Visitar depois dos brechós, dentro do bloco das 13h45 às 16h. Ambos fecham às 17h no sábado.",
+            whyThisTime: "Visitar com os brechós no bloco das 13h30 às 16h. Fecha às 17h no sábado e não abre domingo ou segunda.",
             groupNote: "Eu vi essa eu quero ir!",
             highlights: "Loja grande de maquiagem, pele e cabelo no térreo do prédio histórico da Previdência do Sul, em frente à Praça da Alfândega.",
             images: [
@@ -2276,68 +2306,94 @@
             instaUrl: "https://www.instagram.com/vonnyoficial/",
             scheduleBlock: {
               number: 3,
-              title: "Passeio da Tarde 1 (Compras & Garimpo)",
-              time: "13:45 – 16:00"
+              title: "Garimpo nos Brechós + Vonny Cosméticos",
+              time: "13:30 – 16:00"
             }
           },
           {
             type: "transit",
-            label: "Deslocamento para o café da tarde"
+            label: "Griffe como destino principal · Samosa opcional no caminho"
           },
           {
             type: "stop",
-            id: "stop-5",
+            id: "stop-11",
             stopNumber: 5,
             day: "sat",
-            time: "16:15 – 17:30",
-            name: "The Samosa Bar",
-            category: "Comida Indiana",
-            gradientTheme: "spice",
-            neighborhood: "Moinhos de Vento",
-            address: "Rua 24 de Outubro, 636, loja 04 (Galeria Bond Street)",
-            lat: -30.02526,
-            lng: -51.2019,
-            whyThisTime: "Fecha às 18h no sábado e não abre domingo.",
-            highlights: "Trios de samosas fritas na hora (carne, frango, ricota ou batata com ervilha), chutney apimentado e masala chai.",
+            time: "16:15 – 18:00",
+            name: "Griffe Patisserie",
+            category: "Café & Doce da Tarde",
+            gradientTheme: "indigo",
+            neighborhood: "Passo d'Areia",
+            address: "Rua Jari, 692",
+            lat: -30.0152,
+            lng: -51.1686,
+            whyThisTime: "Destino principal da tarde de sábado, das 16h15 às 18h. Funcionamento regular de sábado: 10h30 às 19h.",
+            groupNote: "Genteeeeeeewe eu tava querendo muito provar!",
+            highlights: "Confeitaria francesa para comer doces e tomar café depois do passeio da tarde: mil-folhas, entremets, croissants e cafés.",
             images: [
-              "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437407_jpg-11672680.jpeg",
-              "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437418_jpg-11672832.jpeg",
-              "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437405_jpg-11672820.jpeg"
+              "https://www.rbsdirect.com.br/imagesrc/35568491.jpg?w=700",
+              "https://griffepatisserie.com.br/blog/encomenda-torta-flores.webp",
+              "https://griffepatisserie.com.br/og-image.webp"
             ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Samosa+Bar+Rua+24+de+Outubro+636+Porto+Alegre",
-            videoUrl: "https://www.instagram.com/reel/DesSiDWx49v/",
+            mapsUrl: "https://maps.app.goo.gl/C7H7aJBMBHnrhy3U6",
+            videoUrl: "https://www.instagram.com/reel/Dc1ojPdNg3j/",
             videoPlatform: "Reel",
-            instaUrl: "https://www.instagram.com/samosa_bar/",
+            instaUrl: "https://www.instagram.com/griffepatisserie/",
             scheduleBlock: {
               number: 4,
-              title: "Café da Tarde",
-              time: "16:15 – 17:30"
-            }
-          },
-          {
-            type: "transit",
-            label: "Caminhada para o Parcão e os Jardins do DMAE"
+              title: "Café e Doce na Griffe Patisserie (+ Samosa Opcional)",
+              time: "16:15 – 18:00"
+            },
+            optionalStops: [
+              {
+                type: "stop",
+                id: "stop-5",
+                stopNumber: 4,
+                day: "sat",
+                time: "10–15 min · antes das 18h",
+                name: "The Samosa Bar",
+                category: "Comida Indiana",
+                gradientTheme: "spice",
+                neighborhood: "Moinhos de Vento",
+                address: "Rua 24 de Outubro, 636, loja 04 (Galeria Bond Street)",
+                lat: -30.02526,
+                lng: -51.2019,
+                whyThisTime: "Sábado: 12h às 18h. Fechado domingo e segunda. Parada rápida opcional no caminho para a Griffe.",
+                highlights: "Balcão de samosas indianas artesanais. Reservar apenas 10–15 minutos antes de seguir para a Griffe Patisserie.",
+                images: [
+                  "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437407_jpg-11672680.jpeg",
+                  "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437418_jpg-11672832.jpeg",
+                  "https://www.jornaldocomercio.com/_midias/jpg/2026/02/13/800x600/1_1000437405_jpg-11672820.jpeg"
+                ],
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Samosa+Bar+Rua+24+de+Outubro+636+Porto+Alegre",
+                videoUrl: "https://www.instagram.com/reel/DesSiDWx49v/",
+                videoPlatform: "Reel",
+                instaUrl: "https://www.instagram.com/samosa_bar/",
+                optional: true
+              }
+            ]
           },
           {
             type: "logistics",
             id: "sat-parcao",
-            time: "17:30 – 19:00",
-            title: "Parque Moinhos de Vento (Parcão) & Jardins do DMAE",
+            time: "18:00 – 19:15",
+            title: "Tempo Livre / Descanso",
             neighborhood: "Moinhos de Vento",
-            address: "Rua 24 de Outubro, 200",
+            address: "Parque Moinhos de Vento (Parcão) - Moinhos de Vento",
             lat: -30.0275,
             lng: -51.2032,
-            description: "Pausa nos jardins da Hidráulica e no lago do Parcão antes do jantar.",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Jardins+do+DMAE+Rua+24+de+Outubro+200+Porto+Alegre",
+            description: "Volta leve no Parcão (Parque Moinhos de Vento) ou pausa para descansar antes do jantar.",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Parque%20Moinhos%20de%20Vento%20Parc%C3%A3o%20Porto%20Alegre",
             scheduleBlock: {
               number: 5,
-              title: "Passeio da Tarde 2 (Ao Ar Livre)",
-              time: "17:30 – 19:00"
-            }
+              title: "Tempo Livre / Descanso",
+              time: "18:00 – 19:15"
+            },
+            hoursNote: "Bloco livre das 18h às 19h15; passeio opcional."
           },
           {
             type: "transit",
-            label: "Deslocamento para o jantar"
+            label: "Deslocamento para o jantar coreano"
           },
           {
             type: "stop",
@@ -2352,8 +2408,8 @@
             address: "Rua Fabrício Pilar, 93",
             lat: -30.0261,
             lng: -51.194,
-            whyThisTime: "Jantar de sábado das 19h às 22h30. Fecha domingo.",
-            highlights: "Frango frito coreano (gochujang ou alho e shoyu), bibimbap na pedra quente, tteokbokki e kimchi da casa.",
+            whyThisTime: "Jantar de sábado das 19h30 às 22h. Funcionamento informado: 19h às 22h30.",
+            highlights: "Restaurante de culinária coreana: frango frito coreano, bibimbap, tteokbokki e kimchi da casa.",
             images: [
               "https://img02.restaurantguru.com/cd5c-Restaurant-Okpo-Culture-food-1.jpg",
               "https://img02.restaurantguru.com/c8c6-Okpo-Culture-meals.jpg",
@@ -2365,7 +2421,7 @@
             instaUrl: "https://www.instagram.com/okpo.culture/",
             scheduleBlock: {
               number: 6,
-              title: "Jantar de Sábado",
+              title: "Jantar no OKPO Culture",
               time: "19:30 – 22:00"
             }
           }
@@ -2374,61 +2430,31 @@
           {
             type: "logistics",
             id: "sun-breakfast",
-            time: "08:30 – 10:00",
+            time: "08:30 – 10:45",
             title: "Café da Manhã no Hotel",
             neighborhood: "Centro Histórico",
             address: "Rua José Montaury, 20",
             lat: -30.02895,
             lng: -51.22776,
-            description: "Café incluso até 10h e saída a pé pela Rua dos Andradas.",
+            description: "Café da manhã no Fast 10 City Hotel e saída a pé para o Farol Santander, a duas quadras.",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre",
             scheduleBlock: {
               number: 1,
               title: "Café da Manhã no Hotel",
-              time: "08:30 – 10:00"
-            }
+              time: "08:30 – 10:45"
+            },
+            hoursNote: "Café do hotel: 07h às 10h. O bloco inclui o tempo de preparação e saída até 10h45."
           },
           {
             type: "transit",
-            label: "Saída a pé do hotel pela Rua dos Andradas"
-          },
-          {
-            type: "stop",
-            id: "stop-7",
-            stopNumber: 7,
-            day: "sun",
-            time: "10:00 – 12:15",
-            name: "Casa de Cultura Mário Quintana",
-            category: "Cultura",
-            gradientTheme: "pink",
-            neighborhood: "Centro Histórico",
-            address: "Rua dos Andradas, 736",
-            lat: -30.03139,
-            lng: -51.23444,
-            whyThisTime: "Começar às 10h na CCMQ e seguir ao Farol Santander, que abre às 11h. Encerrar o passeio às 12h15.",
-            groupNote: "Para tirar fotos",
-            highlights: "Antigo Hotel Majestic: passarelas externas, Quarto do Poeta e Jardim Lutzenberger no 5º andar. Entrada gratuita.",
-            images: [
-              "https://destinopoa.com.br/wp-content/uploads/2024/12/MG_6864_21_11zon.webp",
-              "https://destinopoa.com.br/wp-content/uploads/2026/09/MG_6874_13_11zon.webp",
-              "https://www.correiodopovo.com.br/image/contentid/policy:1.1629991:1752948119/ccmq6.jpeg"
-            ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Casa+de+Cultura+Mario+Quintana+Rua+dos+Andradas+736+Porto+Alegre",
-            videoUrl: "https://www.instagram.com/reel/DX43QEux2__/",
-            videoPlatform: "Reel",
-            instaUrl: "https://www.instagram.com/ccmarioquintana/",
-            scheduleBlock: {
-              number: 2,
-              title: "Passeio da Manhã (A pé do Hotel)",
-              time: "10:00 – 12:15"
-            }
+            label: "Duas quadras a pé do hotel"
           },
           {
             type: "stop",
             id: "stop-8",
-            stopNumber: 8,
+            stopNumber: 7,
             day: "sun",
-            time: "10:00 – 12:15",
+            time: "11:00 – 12:30",
             name: "Farol Santander Porto Alegre",
             category: "Museu",
             gradientTheme: "teal",
@@ -2436,8 +2462,8 @@
             address: "Rua Sete de Setembro, 1028 (Praça da Alfândega)",
             lat: -30.02875,
             lng: -51.2304,
-            whyThisTime: "Visitar depois da CCMQ, a partir das 11h, e sair até 12h15 para o almoço. Fecha segunda.",
-            highlights: "Átrio com claraboia de vitrais franceses, exposições e Sala da Moeda dentro dos cofres antigos no subsolo.",
+            whyThisTime: "Abre às 11h no domingo. Visita programada das 11h às 12h30.",
+            highlights: "Visita à exposição de brinquedos e à arquitetura histórica, a duas quadras a pé do hotel.",
             images: [
               "https://destinopoa.com.br/wp-content/uploads/2023/10/MG_6895_22_11zon.webp",
               "https://upload.wikimedia.org/wikipedia/commons/9/90/Interior_do_Santander_Cultural.jpg",
@@ -2449,99 +2475,121 @@
             instaUrl: "https://www.instagram.com/farolsantanderpoa/",
             scheduleBlock: {
               number: 2,
-              title: "Passeio da Manhã (A pé do Hotel)",
-              time: "10:00 – 12:15"
+              title: "Passeio da Manhã: Farol Santander",
+              time: "11:00 – 12:30"
             }
           },
           {
             type: "transit",
-            label: "Deslocamento para o almoço"
+            label: "Deslocamento para a Rua Olinda"
           },
           {
             type: "stop",
             id: "stop-9",
-            stopNumber: 9,
+            stopNumber: 8,
             day: "sun",
-            time: "12:30 – 14:15",
+            time: "12:45 – 14:30",
             name: "Zaituna Cozinha Árabe & Empório",
             category: "Almoço Árabe",
             gradientTheme: "emerald",
-            neighborhood: "Higienópolis",
-            address: "Av. Cristóvão Colombo, 3192 / Rua Felicíssimo de Azevedo, 950",
-            lat: -30.0172,
-            lng: -51.18856,
-            whyThisTime: "No domingo abre só no almoço, das 12h às 15h.",
-            highlights: "Térreo do Hotel Swan Tower: pastas com pão pita quente, quibe cru, falafel, shawarma e doces árabes.",
+            neighborhood: "São Geraldo",
+            address: "Rua Olinda, 307 - São Geraldo",
+            lat: -30.0155097,
+            lng: -51.1994309,
+            whyThisTime: "Almoço de domingo: 12h às 16h. Visita programada das 12h45 às 14h30.",
+            highlights: "Almoço árabe de domingo: pastas, quibe, falafel, shawarma e doces árabes, na Rua Olinda.",
             images: [
               "https://img3.restaurantguru.com/rests/original/108_566966474.jpg",
               "https://1033609670.rsc.cdn77.org/rests/original/105_547248338.jpg",
               "https://img4.restaurantguru.com/rests/original/103_626829611.jpg"
             ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Zaituna+Rua+Felicissimo+de+Azevedo+950+Porto+Alegre",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Zaituna%20Rua%20Olinda%20307%20Porto%20Alegre",
             videoUrl: "https://www.instagram.com/reel/DdH-Otqu-x-/",
             videoPlatform: "Reel",
             instaUrl: "https://www.instagram.com/zaitunaarabe/",
             scheduleBlock: {
               number: 3,
-              title: "Almoço de Domingo",
-              time: "12:30 – 14:15"
+              title: "Almoço no Zaituna Cozinha Árabe & Empório",
+              time: "12:45 – 14:30"
             }
           },
           {
             type: "transit",
-            label: "Deslocamento para o passeio ao ar livre"
+            label: "Escolher o passeio ao ar livre"
           },
           {
             type: "logistics",
             id: "sun-shiga",
-            time: "14:30 – 16:00",
-            title: "Praça Shiga (Jardim Japonês) ou Brique da Redenção",
+            time: "14:45 – 16:30",
+            title: "Passeio ao Ar Livre: Brique da Redenção OU Praça Shiga",
             neighborhood: "Higienópolis / Bom Fim",
-            address: "Av. Cristóvão Colombo esq. Plínio Brasil Milano",
+            address: "Brique: Parque Farroupilha · Praça Shiga: Rua Eng. Ildefonso Simões Lopes, 45",
             lat: -30.0191,
             lng: -51.1776,
-            description: "Jardim japonês gratuito a 3 min do Zaituna (aberto das 13h às 17h) ou feira de domingo na Redenção.",
+            description: "Escolher entre o Brique da Redenção, no Parque Farroupilha, e o jardim japonês da Praça Shiga.",
             videoUrl: "https://www.instagram.com/reel/DaBpLRQOI5e/",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Praca+Provincia+de+Shiga+Porto+Alegre",
             scheduleBlock: {
               number: 4,
-              title: "Passeio da Tarde 1 (Ao Ar Livre)",
-              time: "14:30 – 16:00"
-            }
+              title: "Passeio ao Ar Livre",
+              time: "14:45 – 16:30"
+            },
+            hoursNote: "Passeio das 14h45 às 16h30. Praça Shiga: visita à tarde até as 17h.",
+            quickLinks: [
+              {
+                label: "Brique da Redenção",
+                url: "https://www.google.com/maps/search/?api=1&query=Brique%20da%20Reden%C3%A7%C3%A3o%20Parque%20Farroupilha%20Porto%20Alegre"
+              },
+              {
+                label: "Praça Shiga",
+                url: "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a%20Prov%C3%ADncia%20de%20Shiga%20Porto%20Alegre"
+              }
+            ]
           },
           {
             type: "transit",
-            label: "Deslocamento para o café da tarde"
+            label: "Volta ao Centro Histórico"
           },
           {
             type: "stop",
-            id: "stop-10",
-            stopNumber: 10,
+            id: "stop-7",
+            stopNumber: 9,
             day: "sun",
-            time: "16:15 – 18:00",
-            name: "Ginkgo Café e Floricultura",
-            category: "Café & Floricultura",
-            gradientTheme: "forest",
-            neighborhood: "Auxiliadora",
-            address: "Rua Coronel Bordini, 332",
-            lat: -30.02103,
-            lng: -51.19674,
-            whyThisTime: "Café da tarde das 16h15 às 18h, antes do passeio e jantar no Bourbon Country.",
-            highlights: "Cafeteria dentro de uma estufa de plantas: cafés especiais gelados e coados, matcha latte, toasts e tortas.",
+            time: "16:45 – 18:30",
+            name: "Casa de Cultura Mário Quintana + Café no Lola Bar",
+            category: "Cultura",
+            gradientTheme: "pink",
+            neighborhood: "Centro Histórico",
+            address: "Rua dos Andradas, 736",
+            lat: -30.03139,
+            lng: -51.23444,
+            whyThisTime: "CCMQ no fim da tarde, das 16h45 às 18h30. Café e doce no Lola Bar, no terraço do 7º andar.",
+            groupNote: "Para tirar fotos",
+            highlights: "Visita cultural seguida de café e doce no Lola Bar, com vista para o pôr do sol no terraço do 7º andar.",
             images: [
-              "https://img02.restaurantguru.com/c54d-Cafe-Ginkgo-design.jpg",
-              "https://img4.restaurantguru.com/w550/h367/r7aa-interior-Ginkgo-2026-10-10.jpg",
-              "https://img02.restaurantguru.com/c7d8-Ginkgo-Porto-Alegre-meals.jpg"
+              "https://destinopoa.com.br/wp-content/uploads/2024/12/MG_6864_21_11zon.webp",
+              "https://destinopoa.com.br/wp-content/uploads/2026/09/MG_6874_13_11zon.webp",
+              "https://www.correiodopovo.com.br/image/contentid/policy:1.1629991:1752948119/ccmq6.jpeg"
             ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ginkgo+Cafe+e+Floricultura+Rua+Coronel+Bordini+332+Porto+Alegre",
-            videoUrl: "https://www.instagram.com/somosginkgo",
-            videoPlatform: "Perfil",
-            instaUrl: "https://www.instagram.com/somosginkgo/",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Casa+de+Cultura+Mario+Quintana+Rua+dos+Andradas+736+Porto+Alegre",
+            videoUrl: "https://www.instagram.com/reel/DX43QEux2__/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/ccmarioquintana/",
             scheduleBlock: {
               number: 5,
-              title: "Café da Tarde",
-              time: "16:15 – 18:00"
-            }
+              title: "Fim de Tarde e Café na Casa de Cultura Mário Quintana",
+              time: "16:45 – 18:30"
+            },
+            subLocations: [
+              {
+                name: "Lola Bar · terraço do 7º andar",
+                url: "https://www.google.com/maps/search/?api=1&query=Lola+Bar+Casa+de+Cultura+Mario+Quintana+Porto+Alegre"
+              },
+              {
+                name: "Instagram Lola Bar",
+                url: "https://www.instagram.com/lolaccmq/"
+              }
+            ]
           },
           {
             type: "transit",
@@ -2550,18 +2598,18 @@
           {
             type: "stop",
             id: "stop-13",
-            stopNumber: 11,
+            stopNumber: 10,
             day: "sun",
-            time: "18:15 – 21:30",
-            name: "Bourbon Shopping Country + Daiso Japan",
-            category: "Shopping & Jantar",
+            time: "18:45 – 22:00",
+            name: "Daiso Japan + Jantar no LOOF - Food & Fun",
+            category: "Compras & Jantar",
             gradientTheme: "violet",
             neighborhood: "Passo d'Areia",
-            address: "Av. Túlio de Rose, 80 (Bourbon Country, 1º andar)",
+            address: "Bourbon Shopping Country - Av. Túlio de Rose, 80",
             lat: -30.0218,
             lng: -51.1626,
-            whyThisTime: "Domingo: visitar a Daiso antes das 20h e depois jantar no shopping, até 21h30.",
-            highlights: "Cerâmicas, utensílios de cozinha, marmitas bento, papelaria e snacks japoneses. Depois das compras, jantar no shopping, por exemplo no LOOF, no 2º piso.",
+            whyThisTime: "Daiso Japan: visitar antes das 20h. LOOF: aberto até as 23h no domingo.",
+            highlights: "Compras na Daiso Japan, no Bourbon Shopping Country, seguidas de jantar no LOOF - Food & Fun, no 2º andar. Bloco das 18h45 às 22h.",
             images: [
               "https://www.jornaldocomercio.com/_midias/jpg/2026/06/05/760x541/1_minuto_varejo_bourbon_country_daiso_japan_dia_abertura_jornal_do_comercio-11876313.jpeg",
               "https://upload.wikimedia.org/wikipedia/commons/4/4c/Bourbon_Shopping_Country01.JPG",
@@ -2573,9 +2621,16 @@
             instaUrl: "https://www.instagram.com/daisojapanbrasil/",
             scheduleBlock: {
               number: 6,
-              title: "Passeio da Noite (Shopping 1) + Jantar",
-              time: "18:15 – 21:30"
-            }
+              title: "Compras na Daiso Japan + Jantar no LOOF - Food & Fun",
+              time: "18:45 – 22:00"
+            },
+            rating: "LOOF · 4,7 ★",
+            subLocations: [
+              {
+                name: "LOOF - Food & Fun · 2º andar",
+                url: "https://www.google.com/maps/search/?api=1&query=LOOF%20Food%20Fun%20Bourbon%20Country%20Porto%20Alegre"
+              }
+            ]
           }
         ],
         mon: [
@@ -2583,59 +2638,54 @@
             type: "logistics",
             id: "mon-checkout",
             time: "08:30 – 10:00",
-            title: "Café da Manhã no Hotel + Check-out",
+            title: "Café da Manhã e Check-out",
             neighborhood: "Centro → Zona Norte",
             address: "Rua José Montaury, 20",
             lat: -30.02895,
             lng: -51.22776,
-            description: "Fast 10 City Hotel: tomar café, fazer o check-out e colocar as malas no carro antes da caminhada na Orla do Guaíba.",
+            description: "Fast 10 City Hotel: tomar café, fazer o check-out e colocar as malas no porta-malas.",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre",
             scheduleBlock: {
               number: 1,
-              title: "Café da Manhã no Hotel + Check-out",
+              title: "Café da Manhã e Check-out",
               time: "08:30 – 10:00"
-            }
-          },
-          {
-            type: "transit",
-            label: "Deslocamento para a Orla do Guaíba"
+            },
+            hoursNote: "Café do hotel até as 10h. Sair com as malas no carro."
           },
           {
             type: "logistics",
             id: "mon-orla",
-            title: "Orla do Guaíba",
+            title: "Opção A · Orla do Guaíba",
             neighborhood: "Orla / Centro Histórico",
-            address: "Parque Moacyr Scliar (Orla do Guaíba)",
+            address: "Parque Moacyr Scliar / Usina do Gasômetro",
             lat: -30.0378843,
             lng: -51.2417129,
-            description: "Caminhada leve pela manhã na Orla do Guaíba, antes de seguir para o almoço e passeio no Iguatemi.",
+            description: "Caminhada matinal no Parque Moacyr Scliar / Usina do Gasômetro. Escolha esta opção para uma manhã ao ar livre.",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Parque+Moacyr+Scliar+Orla+do+Guaiba+Porto+Alegre",
-            time: "10:15 – 11:30",
+            time: "10:15 – 11:45",
             scheduleBlock: {
               number: 2,
-              title: "Passeio da Manhã",
-              time: "10:15 – 11:30"
-            }
-          },
-          {
-            type: "transit",
-            label: "Deslocamento para o Shopping Iguatemi"
+              title: "Passeio da Manhã · Escolha uma das Duas Opções",
+              time: "10:15 – 11:45"
+            },
+            hoursNote: "Passeio ao ar livre das 10h15 às 11h45.",
+            choiceKey: "orla"
           },
           {
             type: "stop",
             id: "stop-12",
-            stopNumber: 12,
+            stopNumber: 11,
             day: "mon",
-            time: "11:45 – 14:45",
-            name: "Shopping Iguatemi + Livraria da Travessa",
-            category: "Livraria & Almoço",
+            time: "10:15 – 11:45",
+            name: "Opção B · Shopping Iguatemi + Livraria da Travessa",
+            category: "Shopping & Livraria",
             gradientTheme: "cobalt",
             neighborhood: "Passo d'Areia",
-            address: "Av. João Wallig, 1800 (Shopping Iguatemi, 2º piso)",
+            address: "Av. João Wallig, 1800 - Passo d'Areia",
             lat: -30.0277,
             lng: -51.1633,
-            whyThisTime: "Almoço e passeio das 11h45 às 14h45, com tempo para a livraria antes do café de despedida na Griffe.",
-            highlights: "Almoço no shopping, por exemplo no Playa Paris, no 3º piso. Depois, aproveitar o tempo para passear pelo Iguatemi e pela Livraria da Travessa, com livros, vinis e café.",
+            whyThisTime: "Opção de shopping/livraria no bloco das 10h15 às 11h45. Confirmar o horário de abertura no feriado.",
+            highlights: "Passeio matinal no Shopping Iguatemi e na Livraria da Travessa, como alternativa à caminhada na Orla.",
             images: [
               "https://www.rbsdirect.com.br/filestore/0/9/2/2/1/4/5_2c810c5ee052cb2/5412290_757c45e6c47bd3f.jpg?format=webp",
               "https://www.travessa.com.br/images/QuemSomos-1.jpg",
@@ -2646,70 +2696,105 @@
             videoPlatform: "Reel",
             instaUrl: "https://www.instagram.com/livrariadatravessa/",
             scheduleBlock: {
-              number: 3,
-              title: "Almoço de Segunda + Passeio (Shopping 2)",
-              time: "11:45 – 14:45"
-            }
+              number: 2,
+              title: "Passeio da Manhã · Escolha uma das Duas Opções",
+              time: "10:15 – 11:45"
+            },
+            choiceKey: "iguatemi"
           },
           {
             type: "transit",
-            label: "Iguatemi → Griffe Patisserie · cerca de 4 min"
+            label: "Deslocamento para a rota dos sanduíches"
           },
           {
             type: "stop",
-            id: "stop-11",
-            stopNumber: 13,
+            id: "stop-4",
+            stopNumber: 12,
             day: "mon",
-            time: "15:00 – 16:15",
-            name: "Griffe Patisserie",
-            category: "Confeitaria",
-            gradientTheme: "indigo",
-            neighborhood: "Passo d'Areia",
-            address: "Rua Jari, 692",
-            lat: -30.0152,
-            lng: -51.1686,
-            whyThisTime: "Café e doce de despedida das 15h às 16h15. Fica a cerca de 4 min do Iguatemi; confirmar o funcionamento no feriado.",
-            holidayAlert: {
-              text: "Confirmar horário de Finados no WhatsApp (51) 98122-2408",
-              whatsappUrl: "https://wa.me/5551981222408?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20o%20hor%C3%A1rio%20na%20segunda%20de%20Finados%20(02%2F11)."
-            },
-            groupNote: "Genteeeeeeewe eu tava querendo muito provar!",
-            highlights: "Doces franceses, mil-folhas, entremets, croissants e cafés em deck arborizado.",
+            time: "12:00 – 13:30",
+            name: "Louie's Italian Deli",
+            category: "Almoço de Despedida",
+            gradientTheme: "terracotta",
+            neighborhood: "Auxiliadora",
+            address: "Rua 24 de Outubro, 1600",
+            lat: -30.02153,
+            lng: -51.19282,
+            whyThisTime: "Funcionamento informado: 11h às 19h. Conferir nos Stories no domingo se abrirá no feriado de Finados.",
+            highlights: "Opção 1 da rota dos sanduíches: focaccias artesanais italianas, na Rua 24 de Outubro, 1600.",
             images: [
-              "https://www.rbsdirect.com.br/imagesrc/35568491.jpg?w=700",
-              "https://griffepatisserie.com.br/blog/encomenda-torta-flores.webp",
-              "https://griffepatisserie.com.br/og-image.webp"
+              "https://www.louiesdeli.com.br/assets/img/bologna.webp",
+              "https://www.louiesdeli.com.br/assets/img/soft.webp",
+              "https://www.louiesdeli.com.br/assets/img/fachada.webp"
             ],
-            mapsUrl: "https://maps.app.goo.gl/C7H7aJBMBHnrhy3U6",
-            videoUrl: "https://www.instagram.com/reel/Dc1ojPdNg3j/",
+            mapsUrl: "https://maps.app.goo.gl/P2cn6CbwTi1MSyHYA",
+            videoUrl: "https://www.instagram.com/reel/DdOx3uUAcDS/",
             videoPlatform: "Reel",
-            instaUrl: "https://www.instagram.com/griffepatisserie/",
+            instaUrl: "https://www.instagram.com/louies_deli/",
             scheduleBlock: {
-              number: 4,
-              title: "Café / Doce da Tarde de Despedida",
-              time: "15:00 – 16:15"
+              number: 3,
+              title: "Almoço de Despedida: Rota dos Sanduíches",
+              time: "12:00 – 13:30"
+            },
+            optionLabel: "Opção 1",
+            holidayAlert: {
+              text: "FERIADO DE FINADOS: conferir nos Stories no domingo (01/11) se a deli abrirá na segunda (02/11).",
+              url: "https://www.instagram.com/louies_deli/",
+              actionLabel: "Conferir Stories"
             }
           },
           {
-            type: "transit",
-            label: "Saída para a estrada"
+            type: "stop",
+            id: "stop-3",
+            stopNumber: 13,
+            day: "mon",
+            time: "12:00 – 13:30",
+            name: "Freddie's Deli",
+            category: "Almoço de Despedida",
+            gradientTheme: "amber",
+            neighborhood: "Moinhos de Vento",
+            address: "Rua Félix da Cunha, 1215 - Moinhos de Vento",
+            lat: -30.02367,
+            lng: -51.20202,
+            whyThisTime: "Funcionamento informado: 11h às 19h. Conferir nos Stories no domingo se abrirá no feriado de Finados.",
+            highlights: "Opção 2 da rota dos sanduíches: deli nova-iorquina e sanduíches de pastrami. Fica a cerca de 2 minutos da Louie's.",
+            images: [
+              "https://www.jornaldocomercio.com/_midias/jpg/2025/12/29/800x600/1_img_20251229_wa0061-11604190.jpg",
+              "https://www.jornaldocomercio.com/_midias/jpg/2025/12/29/800x600/1_img_20251229_wa0044-11604202.jpg",
+              "https://destinopoa.com.br/wp-content/uploads/2026/01/Captura-de-Tela-2026-01-22-as-15.38.26.webp"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Freddie's%20Deli%20Rua%20F%C3%A9lix%20da%20Cunha%201215%20Porto%20Alegre",
+            videoUrl: "https://www.instagram.com/reel/Dal1CIXOCHf/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/freddies.deli/",
+            scheduleBlock: {
+              number: 3,
+              title: "Almoço de Despedida: Rota dos Sanduíches",
+              time: "12:00 – 13:30"
+            },
+            optionLabel: "Opção 2",
+            holidayAlert: {
+              text: "FERIADO DE FINADOS: conferir nos Stories no domingo (01/11) se a deli abrirá na segunda (02/11).",
+              url: "https://www.instagram.com/freddies.deli/",
+              actionLabel: "Conferir Stories"
+            }
           },
           {
             type: "logistics",
             id: "mon-departure",
-            time: "16:30",
-            title: "Partida para Passo Fundo",
-            neighborhood: "Zona Norte → Estrada",
-            address: "Saída direta pelo Passo d'Areia",
-            lat: -30.0218,
-            lng: -51.1626,
-            description: "Pegar a estrada de volta para Passo Fundo às 16h30, depois do café de despedida na Griffe.",
-            mapsUrl: "https://www.google.com/maps/dir/Bourbon+Shopping+Country,+Porto+Alegre/Passo+Fundo,+RS",
+            time: "13:30",
+            title: "Viagem de Retorno para Passo Fundo",
+            neighborhood: "Porto Alegre → Passo Fundo",
+            address: "Saída de Porto Alegre rumo a Passo Fundo",
+            lat: -30.02367,
+            lng: -51.20202,
+            description: "Saída de Porto Alegre às 13h30, depois do almoço de despedida nas delis.",
+            mapsUrl: "https://www.google.com/maps/dir/Porto+Alegre,+RS/Passo+Fundo,+RS",
             scheduleBlock: {
-              number: 5,
-              title: "Partida",
-              time: "16:30"
-            }
+              number: 4,
+              title: "Viagem de Retorno",
+              time: "13:30"
+            },
+            hoursNote: "Partida às 13h30."
           }
         ]
       },
@@ -2723,7 +2808,7 @@
           category: "Parque",
           gradientTheme: "emerald",
           neighborhood: "Higienópolis",
-          address: "Av. Cristóvão Colombo esq. Plínio Brasil Milano",
+          address: "Rua Eng. Ildefonso Simões Lopes, 45",
           lat: -30.0191,
           lng: -51.1776,
           hoursNote: "Todos os dias: 9h às 12h e 13h às 17h. Entrada gratuita.",
@@ -2874,6 +2959,32 @@
           name: "Jantar alternativo: Lola Bar, Grazie Mille ou Paparoto",
           code: "B7",
           bestFor: "Alternativa ao jantar no Bourbon Country"
+        },
+        {
+          type: "stop",
+          id: "stop-10",
+          time: "16:15 – 18:00",
+          name: "Ginkgo Café e Floricultura",
+          category: "Café & Floricultura",
+          gradientTheme: "forest",
+          neighborhood: "Auxiliadora",
+          address: "Rua Coronel Bordini, 332",
+          lat: -30.02103,
+          lng: -51.19674,
+          whyThisTime: "Café da tarde das 16h15 às 18h, antes do passeio e jantar no Bourbon Country.",
+          highlights: "Café e floricultura retirados do domingo para evitar duplicidade com o café no Lola Bar. Mantido apenas como plano B.",
+          images: [
+            "https://img02.restaurantguru.com/c54d-Cafe-Ginkgo-design.jpg",
+            "https://img4.restaurantguru.com/w550/h367/r7aa-interior-Ginkgo-2026-10-10.jpg",
+            "https://img02.restaurantguru.com/c7d8-Ginkgo-Porto-Alegre-meals.jpg"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ginkgo+Cafe+e+Floricultura+Rua+Coronel+Bordini+332+Porto+Alegre",
+          videoUrl: "https://www.instagram.com/somosginkgo",
+          videoPlatform: "Perfil",
+          instaUrl: "https://www.instagram.com/somosginkgo/",
+          code: "B8",
+          bestFor: "Alternativa fora da programação de domingo",
+          hoursNote: "Consultar o funcionamento antes da visita."
         }
       ]
     };
@@ -2889,7 +3000,8 @@
         photoIndex: {},
         mapOpen: false,
         mapExpanded: false,
-        focusedPinId: null
+        focusedPinId: null,
+        mondayMorningChoice: "orla"
       };
 
       let map = null;
@@ -2954,18 +3066,16 @@
         GroupSync.recordLocal(id, on);
       }
 
+      function getDayItems(dayKey) {
+        return (POA_TRIP_DATA.days[dayKey] || []).flatMap((item) => [...(item.optionalStops || []), item]);
+      }
+
       function getAllConfirmedStops() {
-        const list = [];
-        ["sat", "sun", "mon"].forEach((d) => {
-          POA_TRIP_DATA.days[d].forEach((item) => {
-            if (item.type === "stop") list.push(item);
-          });
-        });
-        return list;
+        return ["sat", "sun", "mon"].flatMap(getDayStops);
       }
 
       function getDayStops(dayKey) {
-        return (POA_TRIP_DATA.days[dayKey] || []).filter((item) => item.type === "stop");
+        return getDayItems(dayKey).filter((item) => item.type === "stop");
       }
 
       window.handleImgError = function (imgEl) {
@@ -3096,7 +3206,7 @@
                   '<button type="button" class="ov-check-chip' + (checked ? " is-checked" : "") +
                   '" data-toggle-visited="' + s.id + '" aria-pressed="' + (checked ? "true" : "false") + '">' +
                   '<span class="check-box-ui" aria-hidden="true">✓</span>' +
-                  '<span class="ov-chip-name">' + escapeHtml(shortName) + "</span></button>"
+                  '<span class="ov-chip-name">' + escapeHtml((s.optional ? 'Opcional · ' : '') + shortName) + "</span></button>"
                 );
               })
               .join("");
@@ -3147,9 +3257,9 @@
           '<section class="logistics-summary-box">' +
           "<h3>Resumo da logística</h3>" +
           '<ul class="logistics-list">' +
-          "<li>Sábado alterna almoço nas delis, brechós e Vonny antes das 17h, café no Samosa, Parcão e jantar no OKPO.</li>" +
-          "<li>Domingo combina CCMQ e Farol, almoço no Zaituna, passeio ao ar livre, Ginkgo e Bourbon Country; Daiso antes das 20h e jantar depois.</li>" +
-          "<li>Segunda começa com check-out e Orla, segue para almoço e passeio no Iguatemi, termina com Griffe e partida às 16h30 para Passo Fundo.</li>" +
+          "<li>Sábado: check-in, almoço no Al Nur, brechós e Vonny, café na Griffe com Samosa opcional, descanso e jantar no OKPO.</li>" +
+          "<li>Domingo: Farol Santander, Zaituna na Rua Olinda, Brique ou Praça Shiga, CCMQ com café no Lola Bar e Daiso antes das 20h, seguida de jantar no LOOF.</li>" +
+          "<li>Segunda: check-out, escolha entre Orla e Iguatemi/Travessa, almoço nas delis e retorno às 13h30. Conferir nos Stories no domingo o funcionamento das delis no feriado.</li>" +
           "</ul></section>"
         );
       }
@@ -3175,7 +3285,7 @@
 
         const holidayHtml = stop.holidayAlert
           ? '<div class="callout-holiday"><span>' + escapeHtml(stop.holidayAlert.text) + '</span>' +
-            '<a href="' + escapeHtml(stop.holidayAlert.whatsappUrl) + '" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>'
+            '<a href="' + escapeHtml(stop.holidayAlert.url || stop.holidayAlert.whatsappUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(stop.holidayAlert.actionLabel || 'WhatsApp') + '</a></div>'
           : "";
 
         return (
@@ -3206,7 +3316,9 @@
           '<div class="stop-body">' +
           '<div class="stop-meta-row"><div class="stop-meta-left">' +
           '<span class="time-badge">' + escapeHtml(stop.time) + "</span>" +
-          '<span class="neighborhood-pill">' + escapeHtml(stop.neighborhood) + "</span></div>" +
+          '<span class="neighborhood-pill">' + escapeHtml(stop.neighborhood) + "</span>" +
+          (stop.rating ? '<span class="rating-pill">' + escapeHtml(stop.rating) + '</span>' : '') +
+          (stop.optionLabel ? '<span class="neighborhood-pill">' + escapeHtml(stop.optionLabel) + '</span>' : '') + "</div>" +
           '<button type="button" class="btn-focus-map" data-focus-pin="' + stop.id + '">Mapa</button></div>' +
           '<h3 class="stop-title">' + escapeHtml(stop.name) + "</h3>" +
           '<p class="stop-address">' + escapeHtml(stop.address) + "</p>" +
@@ -3217,6 +3329,7 @@
             ? '<div class="callout-group"><strong>Grupo:</strong> "' + escapeHtml(stop.groupNote) + '"</div>'
             : "") +
           holidayHtml +
+          (stop.optionalStops || []).map((optional) => renderOptionalStop(optional, theme)).join("") +
           '<div class="action-bar">' +
           '<a class="action-btn action-btn-maps" href="' + escapeHtml(stop.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Google Maps</a>' +
           (stop.videoUrl
@@ -3232,6 +3345,25 @@
           "<span>" + (isVisited ? "Visitado" : "Marcar visitado") + "</span></button>" +
           "</div></div></article></div>"
         );
+      }
+
+      function renderOptionalStop(stop, theme) {
+        const index = state.photoIndex[stop.id] || 0;
+        const visited = state.visited.has(stop.id);
+        return '<aside class="optional-stop" id="card-' + stop.id + '" data-pin-id="' + stop.id + '">' +
+          '<p class="optional-eyebrow">Parada Rápida Opcional no Caminho (fecha às 18h)</p>' +
+          '<div class="optional-layout"><div class="optional-photo">' +
+          buildImgTag(stop.images, { photoIdx: index, title: stop.name, category: stop.category, neighborhood: stop.neighborhood, grad: stop.gradientTheme }) +
+          '<button type="button" class="photo-next-btn" data-cycle-photo="' + stop.id + '">Foto ' + ((index % stop.images.length) + 1) + '/' + stop.images.length + ' ▸</button></div>' +
+          '<div><h4>' + escapeHtml(stop.name) + '</h4><div class="optional-tags"><span class="time-badge">10–15 min</span>' +
+          '<span class="neighborhood-pill">' + escapeHtml(stop.neighborhood) + '</span></div>' +
+          '<p class="stop-address">' + escapeHtml(stop.address) + '</p><p>' + escapeHtml(stop.whyThisTime) + '</p></div></div>' +
+          '<div class="action-bar"><button type="button" class="action-btn" data-focus-pin="' + stop.id + '">Mapa</button>' +
+          '<a class="action-btn" href="' + escapeHtml(stop.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Google Maps</a>' +
+          '<a class="action-btn" href="' + escapeHtml(stop.instaUrl) + '" target="_blank" rel="noopener noreferrer">Instagram</a>' +
+          '<a class="action-btn" href="' + escapeHtml(stop.videoUrl) + '" target="_blank" rel="noopener noreferrer">Reel</a>' +
+          '<button type="button" class="action-btn action-btn-visited' + (visited ? ' is-checked' : '') + '" data-toggle-visited="' + stop.id + '" aria-pressed="' + visited + '">' +
+          (visited ? '✓ Visitado' : 'Marcar visitado') + '</button></div></aside>';
       }
 
       function renderLogisticsCard(item, theme) {
@@ -3258,7 +3390,9 @@
           '<span class="neighborhood-pill">' + escapeHtml(item.neighborhood) + "</span></div>" +
           '<button type="button" class="btn-focus-map" data-focus-pin="' + item.id + '">Mapa</button></div>' +
           '<h3 class="logistics-title">' + escapeHtml(item.title) + "</h3>" +
+          '<p class="stop-address">' + escapeHtml(item.address || POA_TRIP_DATA.baseHotel.address) + '</p>' +
           '<p class="logistics-desc">' + escapeHtml(item.description) + "</p>" +
+          (item.hoursNote ? '<div class="callout-why"><strong>Funcionamento:</strong> ' + escapeHtml(item.hoursNote) + '</div>' : '') +
           (hasLinks
             ? '<div class="logistics-links">' +
               (item.mapsUrl
@@ -3282,7 +3416,8 @@
 
         let lastBlock = null;
         const timelineHtml = items
-          .filter((item) => (!state.onlyPending || item.type !== "stop" ? true : !state.visited.has(item.id)))
+          .filter((item) => (!item.choiceKey || item.choiceKey === state.mondayMorningChoice) &&
+            (item.choiceKey || !state.onlyPending || item.type !== "stop" || !state.visited.has(item.id)))
           .map((item) => {
             if (item.type === "transit") {
               return (
@@ -3297,7 +3432,10 @@
               heading = '<div class="schedule-heading" data-schedule-block="' + block.number + '">' +
                 '<p>' + escapeHtml(block.time) + '</p><h3>' + block.number + '. ' + escapeHtml(block.title) + '</h3></div>';
             }
-            return heading + (item.type === "logistics" ? renderLogisticsCard(item, theme) : renderStopCard(item, theme));
+            const choice = item.choiceKey ? '<div class="morning-choice" role="group" aria-label="Escolha do passeio da manhã de segunda">' +
+              '<button type="button" data-monday-choice="orla" aria-pressed="' + (state.mondayMorningChoice === 'orla') + '">Opção A · Orla do Guaíba</button>' +
+              '<button type="button" data-monday-choice="iguatemi" aria-pressed="' + (state.mondayMorningChoice === 'iguatemi') + '">Opção B · Iguatemi / Travessa</button></div>' : '';
+            return heading + choice + (item.type === "logistics" ? renderLogisticsCard(item, theme) : renderStopCard(item, theme));
           })
           .join("");
 
@@ -3535,7 +3673,7 @@
           ["sat", "sun", "mon"].forEach((dayKey) => {
             const theme = POA_TRIP_DATA.dayThemes[dayKey];
             const pts = [[hotel.lat, hotel.lng]];
-            POA_TRIP_DATA.days[dayKey].forEach((item) => {
+            getDayItems(dayKey).forEach((item) => {
               if (item.type !== "stop") return;
               const cls = state.visited.has(item.id) ? "is-visited" : "";
               const labelTitle = "#" + item.stopNumber + " " + item.name;
@@ -3608,7 +3746,8 @@
           setLegendText("Rota · " + theme.shortLabel);
           const pts = [];
 
-          POA_TRIP_DATA.days[dayKey].forEach((item) => {
+          getDayItems(dayKey).forEach((item) => {
+            if (item.choiceKey && item.choiceKey !== state.mondayMorningChoice) return;
             if (item.type === "stop") {
               const cls = state.visited.has(item.id) ? "is-visited" : "";
               const labelTitle = "#" + item.stopNumber + " " + item.name;
@@ -3793,6 +3932,8 @@
       }
 
       window.scrollToStopCard = function (cardId, targetTab) {
+        if (cardId === "stop-12") state.mondayMorningChoice = "iguatemi";
+        if (cardId === "mon-orla") state.mondayMorningChoice = "orla";
         if (state.mapExpanded && window.innerWidth <= 640) {
           setMapExpanded(false);
         }
@@ -3880,6 +4021,13 @@
 
       function bindEvents() {
         document.addEventListener("click", (e) => {
+          const choice = e.target.closest("[data-monday-choice]");
+          if (choice) {
+            state.mondayMorningChoice = choice.getAttribute("data-monday-choice");
+            renderMainContent();
+            syncMapLayers(true);
+            return;
+          }
           const popupCardBtn = e.target.closest("[data-popup-card]");
           if (popupCardBtn) {
             e.stopPropagation();
