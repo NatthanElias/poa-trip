@@ -1028,6 +1028,27 @@
       .morning-option { scroll-snap-align: start; }
     }
 
+    .decision-badge {
+      display: inline-block;
+      margin: 12px 0 10px;
+      padding: 8px 11px;
+      border-radius: 10px;
+      background: #FEF3C7;
+      color: #92400E;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .meal-choices { display: grid; gap: 12px; margin: 16px 0; }
+    .meal-choice { min-width: 0; padding: 15px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-surface); }
+    .meal-choice-tags { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+    .meal-history-tag { color: #92400E; font-size: 12px; font-weight: 800; }
+    .meal-choice h4 { margin: 10px 0 6px; font-family: var(--font-display); font-size: 16px; }
+    .meal-choice p { font-size: 13px; line-height: 1.5; }
+    .meal-choice .meal-hours { color: var(--day-accent); font-weight: 700; }
+    .optional-outing { padding: 13px; margin: 14px 0; border: 1px dashed var(--border-strong); border-radius: 12px; background: #F8FAFC; font-size: 13px; line-height: 1.5; }
+
     .optional-stop {
       padding: 14px;
       margin: 16px 0;
@@ -2138,8 +2159,8 @@
           id: "sat",
           shortLabel: "Sábado (31/10)",
           fullTitle: "Dia 1 · Sábado, 31/10",
-          themeTitle: "Check-in ➔ Almoço Árabe (Al Nur) ➔ Garimpo & Compras ➔ Patisserie (+ Samosa opcional) ➔ Jantar no Giozakaya!",
-          themeSubtitle: "Al Nur no almoço, brechós e Vonny, Griffe como destino principal com Samosa opcional, descanso e Giozakaya às 19h15.",
+          themeTitle: "Check-in ➔ Almoço Árabe & Empório (Zaituna) ➔ Garimpo & Compras ➔ Patisserie (+ Samosa opcional) ➔ Jantar no Giozakaya!",
+          themeSubtitle: "Zaituna é a única refeição árabe da viagem. Depois, brechós e Vonny, Griffe com Samosa opcional e jantar no Giozakaya.",
           color: "#D94E28",
           softBg: "#FFF3EE",
           stats: "6 blocos · Griffe principal, Samosa opcional"
@@ -2148,11 +2169,11 @@
           id: "sun",
           shortLabel: "Domingo (01/11)",
           fullTitle: "Dia 2 · Domingo, 01/11",
-          themeTitle: "Farol Santander ➔ Almoço Árabe (Zaituna) ➔ Passeio ao Ar Livre ➔ Fim de Tarde na Casa de Cultura ➔ Daiso + Jantar no LOOF",
-          themeSubtitle: "Farol pela manhã, Zaituna na Rua Olinda, Brique ou Praça Shiga, café no Lola Bar e jantar no Bourbon Country.",
+          themeTitle: "Mercado Público + Almoço Tradicional (Escolha na hora) ➔ Farol Santander à Tarde ➔ Casa de Cultura ➔ Daiso + Jantar no LOOF",
+          themeSubtitle: "Manhã no Mercado, almoço decidido no local, Farol à tarde, CCMQ com Lola Bar no fim do dia e Bourbon Country.",
           color: "#0F766E",
           softBg: "#ECFDF8",
-          stats: "6 blocos · Cultura, ar livre e jantar no LOOF"
+          stats: "6 blocos · Almoço em aberto no Mercado Público"
         },
         mon: {
           id: "mon",
@@ -2223,43 +2244,44 @@
           },
           {
             type: "stop",
-            id: "stop-14",
-            name: "Al Nur Restaurante Árabe",
-            category: "Almoço Árabe",
-            gradientTheme: "amber",
-            neighborhood: "Santa Cecília / Bom Fim",
-            address: "Av. Protásio Alves, 616",
-            lat: -30.038551,
-            lng: -51.202008,
-            rating: "4,5 ★",
-            whyThisTime: "Sábado: 11h30 às 15h. Almoço antes do garimpo nos brechós.",
-            highlights: "Culinária árabe tradicional, a cerca de 3 minutos de carro dos brechós da Av. João Pessoa.",
+            id: "stop-9",
+            stopNumber: 1,
+            day: "sat",
+            time: "11:45 – 13:30",
+            name: "Zaituna Cozinha Árabe & Empório",
+            category: "Almoço Árabe & Empório",
+            gradientTheme: "emerald",
+            neighborhood: "São Geraldo",
+            address: "Rua Olinda, 307 - São Geraldo",
+            lat: -30.0155097,
+            lng: -51.1994309,
+            whyThisTime: "Almoço e empório programados para sábado, das 11h45 às 13h30.",
+            highlights: "Almoço árabe completo e visita ao empório árabe. Esta é a única refeição árabe da viagem.",
             images: [
-              "https://alnur.com.br/wp-content/uploads/2020/07/Al-Nur-Rodada-02.jpg",
-              "https://alnur.com.br/wp-content/uploads/2021/08/Beringela-al-Kaplan.jpg"
+              "https://img3.restaurantguru.com/rests/original/108_566966474.jpg",
+              "https://1033609670.rsc.cdn77.org/rests/original/105_547248338.jpg",
+              "https://img4.restaurantguru.com/rests/original/103_626829611.jpg"
             ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Al%20Nur%20Av.%20Prot%C3%A1sio%20Alves%20616%20Porto%20Alegre",
-            instaUrl: "https://www.instagram.com/arabe_alnur/",
-            websiteUrl: "https://alnur.com.br/",
-            time: "11:45 – 13:15",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Zaituna%20Rua%20Olinda%20307%20Porto%20Alegre",
+            videoUrl: "https://www.instagram.com/reel/DdH-Otqu-x-/",
+            videoPlatform: "Reel",
+            instaUrl: "https://www.instagram.com/zaitunaarabe/",
             scheduleBlock: {
               number: 2,
-              title: "Almoço no Al Nur Restaurante Árabe",
-              time: "11:45 – 13:15"
-            },
-            day: "sat",
-            stopNumber: 1
+              title: "Almoço no Zaituna Cozinha Árabe & Empório",
+              time: "11:45 – 13:30"
+            }
           },
           {
             type: "transit",
-            label: "Al Nur → brechós · cerca de 3 min de carro"
+            label: "Zaituna → garimpo e compras"
           },
           {
             type: "stop",
             id: "stop-2",
             stopNumber: 2,
             day: "sat",
-            time: "13:30 – 16:00",
+            time: "13:45 – 16:00",
             name: "5 Brechós da Av. João Pessoa",
             category: "Brechós",
             gradientTheme: "terracotta",
@@ -2267,7 +2289,7 @@
             address: "Av. João Pessoa, 1236 a 1370",
             lat: -30.04315,
             lng: -51.21395,
-            whyThisTime: "Compras e garimpo das 13h30 às 16h, junto com a Vonny. Lojas fecham às 17h no sábado e não abrem domingo ou segunda.",
+            whyThisTime: "Compras e garimpo das 13h45 às 16h. Lojas fecham às 17h no sábado e não abrem domingo ou segunda.",
             highlights: "Casacos, couro e peças vintage em sequência na mesma calçada.",
             subLocations: [
               {
@@ -2303,7 +2325,7 @@
             scheduleBlock: {
               number: 3,
               title: "Garimpo nos Brechós + Vonny Cosméticos",
-              time: "13:30 – 16:00"
+              time: "13:45 – 16:00"
             }
           },
           {
@@ -2311,7 +2333,7 @@
             id: "stop-1",
             stopNumber: 3,
             day: "sat",
-            time: "13:30 – 16:00",
+            time: "13:45 – 16:00",
             name: "Vonny Cosméticos",
             category: "Cosméticos",
             gradientTheme: "rose",
@@ -2319,7 +2341,7 @@
             address: "Rua dos Andradas, 1035",
             lat: -30.03056,
             lng: -51.23139,
-            whyThisTime: "Visitar com os brechós no bloco das 13h30 às 16h. Fecha às 17h no sábado e não abre domingo ou segunda.",
+            whyThisTime: "Compras e garimpo das 13h45 às 16h. Lojas fecham às 17h no sábado e não abrem domingo ou segunda.",
             groupNote: "Eu vi essa eu quero ir!",
             highlights: "Loja grande de maquiagem, pele e cabelo no térreo do prédio histórico da Previdência do Sul, em frente à Praça da Alfândega.",
             images: [
@@ -2334,7 +2356,7 @@
             scheduleBlock: {
               number: 3,
               title: "Garimpo nos Brechós + Vonny Cosméticos",
-              time: "13:30 – 16:00"
+              time: "13:45 – 16:00"
             }
           },
           {
@@ -2460,31 +2482,110 @@
           {
             type: "logistics",
             id: "sun-breakfast",
-            time: "08:30 – 10:45",
+            time: "08:30 – 10:15",
             title: "Café da Manhã no Hotel",
             neighborhood: "Centro Histórico",
             address: "Rua José Montaury, 20",
             lat: -30.02895,
             lng: -51.22776,
-            description: "Café da manhã no Fast 10 City Hotel e saída a pé para o Farol Santander, a duas quadras.",
+            description: "Café da manhã no Fast 10 City Hotel e saída a pé para o Mercado Público, a uma quadra.",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fast+10+City+Hotel+Rua+Jose+Montaury+20+Porto+Alegre",
             scheduleBlock: {
               number: 1,
               title: "Café da Manhã no Hotel",
-              time: "08:30 – 10:45"
+              time: "08:30 – 10:15"
             },
-            hoursNote: "Café do hotel: 07h às 10h. O bloco inclui o tempo de preparação e saída até 10h45."
+            hoursNote: "Café do hotel: 07h às 10h. O bloco inclui a preparação para sair até 10h15."
           },
           {
             type: "transit",
-            label: "Duas quadras a pé do hotel"
+            label: "Uma quadra a pé do hotel"
+          },
+          {
+            type: "stop",
+            id: "stop-15",
+            day: "sun",
+            name: "Mercado Público de Porto Alegre",
+            category: "Mercado & Patrimônio",
+            gradientTheme: "amber",
+            neighborhood: "Centro Histórico",
+            address: "Largo Glênio Peres - Centro Histórico",
+            lat: -30.0281871,
+            lng: -51.2280427,
+            whyThisTime: "Domingo: 08h às 16h. Passeio pelas bancas das 10h30 às 12h.",
+            highlights: "Passeio pelas bancas e pela arquitetura histórica de 1869, a uma quadra a pé do hotel.",
+            images: [
+              "https://poafilmcommission.portoalegre.rs.gov.br/sites/default/files/usu_img/locacoes/Urb%2023%20-%20Mercado%20noite%20Ivo%20Gon%2B%C2%BAalves.jpg",
+              "https://poafilmcommission.portoalegre.rs.gov.br/sites/default/files/usu_img/locacoes/Urb%2022%20-%20Mercado%20interna%20Carmem%20Gamba.jpg"
+            ],
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mercado%20P%C3%BAblico%20Largo%20Gl%C3%AAnio%20Peres%20Porto%20Alegre",
+            websiteUrl: "https://www.mercadopublico.com.br/",
+            time: "10:30 – 12:00",
+            scheduleBlock: {
+              number: 2,
+              title: "Passeio da Manhã: Mercado Público de Porto Alegre",
+              time: "10:30 – 12:00"
+            },
+            stopNumber: 7
+          },
+          {
+            type: "logistics",
+            id: "sun-market-lunch",
+            title: "Almoço Tradicional no Mercado Público (Decidir na Hora)",
+            neighborhood: "Centro Histórico",
+            address: "Mercado Público - Largo Glênio Peres",
+            lat: -30.0281871,
+            lng: -51.2280427,
+            description: "Em aberto: escolher na hora, caminhando pelo Mercado, entre as opções abaixo.",
+            hoursNote: "Gambrinus: domingo 11h às 15h. Naval: domingo 11h às 15h30. Demais bancas: consultar no local.",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mercado%20P%C3%BAblico%20Largo%20Gl%C3%AAnio%20Peres%20Porto%20Alegre",
+            decisionBadge: "Escolha na Hora no Mercado Público",
+            mealChoices: [
+              {
+                label: "Opção A",
+                name: "Restaurante Gambrinus",
+                tag: "Desde 1889",
+                address: "Galeria 85 - Mercado Público",
+                hoursNote: "Domingo: 11h às 15h",
+                description: "O mais tradicional do Mercado: bolinho de bacalhau, Tainha na Taquara e chope no balcão.",
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante%20Gambrinus%20Mercado%20P%C3%BAblico%20Galeria%2085%20Porto%20Alegre"
+              },
+              {
+                label: "Opção B",
+                name: "Naval Mercado Público",
+                tag: "Desde 1907",
+                address: "Lojas 91 e 93 - Mercado Público",
+                hoursNote: "Domingo: 11h às 15h30",
+                description: "Clássico especializado em pescados nobres, camarões e frutos do mar.",
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Naval%20Mercado%20P%C3%BAblico%20Lojas%2091%2093%20Porto%20Alegre"
+              },
+              {
+                label: "Opção C",
+                name: "Outros Restaurantes & Bancas + Banca 40",
+                tag: "Banca 40 · Sobremesa",
+                address: "Térreo / 2º piso do Mercado Público",
+                hoursNote: "Explorar os estabelecimentos abertos no horário do almoço",
+                description: "Decidir entre os demais restaurantes e fechar com a sobremesa tradicional da Banca 40, famosa pela taça Bomba de Royal.",
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Banca%2040%20Mercado%20P%C3%BAblico%20Porto%20Alegre"
+              }
+            ],
+            time: "12:00 – 13:45",
+            scheduleBlock: {
+              number: 3,
+              title: "Almoço Tradicional no Mercado Público (Decidir na Hora)",
+              time: "12:00 – 13:45"
+            }
+          },
+          {
+            type: "transit",
+            label: "Mercado Público → Farol Santander · cerca de 2 min a pé"
           },
           {
             type: "stop",
             id: "stop-8",
-            stopNumber: 7,
+            stopNumber: 8,
             day: "sun",
-            time: "11:00 – 12:30",
+            time: "14:00 – 16:00",
             name: "Farol Santander Porto Alegre",
             category: "Museu",
             gradientTheme: "teal",
@@ -2492,8 +2593,8 @@
             address: "Rua Sete de Setembro, 1028 (Praça da Alfândega)",
             lat: -30.02875,
             lng: -51.2304,
-            whyThisTime: "Abre às 11h no domingo. Visita programada das 11h às 12h30.",
-            highlights: "Visita à exposição de brinquedos e ao prédio histórico, a duas quadras a pé do hotel.",
+            whyThisTime: "Domingo: 11h às 18h. Visita programada para a tarde, das 14h às 16h.",
+            highlights: "Visita à exposição de brinquedos e ao prédio histórico, a cerca de 2 minutos a pé do Mercado Público.",
             images: [
               "https://destinopoa.com.br/wp-content/uploads/2023/10/MG_6895_22_11zon.webp",
               "https://upload.wikimedia.org/wikipedia/commons/9/90/Interior_do_Santander_Cultural.jpg",
@@ -2504,88 +2605,27 @@
             videoPlatform: "Reel",
             instaUrl: "https://www.instagram.com/farolsantanderpoa/",
             scheduleBlock: {
-              number: 2,
-              title: "Passeio da Manhã: Farol Santander",
-              time: "11:00 – 12:30"
-            }
-          },
-          {
-            type: "transit",
-            label: "Deslocamento para a Rua Olinda"
-          },
-          {
-            type: "stop",
-            id: "stop-9",
-            stopNumber: 8,
-            day: "sun",
-            time: "12:45 – 14:30",
-            name: "Zaituna Cozinha Árabe & Empório",
-            category: "Almoço Árabe",
-            gradientTheme: "emerald",
-            neighborhood: "São Geraldo",
-            address: "Rua Olinda, 307 - São Geraldo",
-            lat: -30.0155097,
-            lng: -51.1994309,
-            whyThisTime: "Almoço de domingo: 12h às 16h. Visita programada das 12h45 às 14h30.",
-            highlights: "Almoço árabe de domingo: pastas, quibe, falafel, shawarma e doces árabes, na Rua Olinda.",
-            images: [
-              "https://img3.restaurantguru.com/rests/original/108_566966474.jpg",
-              "https://1033609670.rsc.cdn77.org/rests/original/105_547248338.jpg",
-              "https://img4.restaurantguru.com/rests/original/103_626829611.jpg"
-            ],
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Zaituna%20Rua%20Olinda%20307%20Porto%20Alegre",
-            videoUrl: "https://www.instagram.com/reel/DdH-Otqu-x-/",
-            videoPlatform: "Reel",
-            instaUrl: "https://www.instagram.com/zaitunaarabe/",
-            scheduleBlock: {
-              number: 3,
-              title: "Almoço no Zaituna Cozinha Árabe & Empório",
-              time: "12:45 – 14:30"
-            }
-          },
-          {
-            type: "transit",
-            label: "Escolher o passeio ao ar livre"
-          },
-          {
-            type: "logistics",
-            id: "sun-shiga",
-            time: "14:45 – 16:30",
-            title: "Passeio ao Ar Livre: Brique da Redenção OU Praça Shiga",
-            neighborhood: "Higienópolis / Bom Fim",
-            address: "Brique: Parque Farroupilha · Praça Shiga: Rua Eng. Ildefonso Simões Lopes, 45",
-            lat: -30.0191,
-            lng: -51.1776,
-            description: "Escolher entre o Brique da Redenção, no Parque Farroupilha, e o jardim japonês da Praça Shiga.",
-            videoUrl: "https://www.instagram.com/reel/DaBpLRQOI5e/",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Praca+Provincia+de+Shiga+Porto+Alegre",
-            scheduleBlock: {
               number: 4,
-              title: "Passeio ao Ar Livre",
-              time: "14:45 – 16:30"
+              title: "Passeio da Tarde: Farol Santander (+ Brique/Redenção opcional)",
+              time: "14:00 – 16:00"
             },
-            hoursNote: "Passeio das 14h45 às 16h30. Praça Shiga: visita à tarde até as 17h.",
-            quickLinks: [
-              {
-                label: "Brique da Redenção",
-                url: "https://www.google.com/maps/search/?api=1&query=Brique%20da%20Reden%C3%A7%C3%A3o%20Parque%20Farroupilha%20Porto%20Alegre"
-              },
-              {
-                label: "Praça Shiga",
-                url: "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a%20Prov%C3%ADncia%20de%20Shiga%20Porto%20Alegre"
-              }
-            ]
+            optionalOuting: {
+              title: "Brique / Redenção · passeio opcional",
+              description: "Se o grupo quiser, incluir uma volta pelo Brique da Redenção / Parque Farroupilha como alternativa opcional neste bloco da tarde.",
+              address: "Parque Farroupilha - Bom Fim",
+              mapsUrl: "https://www.google.com/maps/search/?api=1&query=Brique%20da%20Reden%C3%A7%C3%A3o%20Parque%20Farroupilha%20Porto%20Alegre"
+            }
           },
           {
             type: "transit",
-            label: "Volta ao Centro Histórico"
+            label: "Farol Santander → CCMQ · caminhada de cerca de 3 min"
           },
           {
             type: "stop",
             id: "stop-7",
             stopNumber: 9,
             day: "sun",
-            time: "16:45 – 18:30",
+            time: "16:15 – 18:15",
             name: "Casa de Cultura Mário Quintana + Café no Lola Bar",
             category: "Cultura",
             gradientTheme: "pink",
@@ -2593,9 +2633,9 @@
             address: "Rua dos Andradas, 736",
             lat: -30.03139,
             lng: -51.23444,
-            whyThisTime: "CCMQ no fim da tarde, das 16h45 às 18h30. Café e doce no Lola Bar, no terraço do 7º andar.",
+            whyThisTime: "Visita cultural no fim da tarde, das 16h15 às 18h15, seguida de café e doce no Lola Bar, no terraço do 7º andar.",
             groupNote: "Para tirar fotos",
-            highlights: "Visita cultural seguida de café e doce no Lola Bar, com vista para o pôr do sol no terraço do 7º andar.",
+            highlights: "Caminhada de cerca de 3 minutos saindo do Farol Santander. Visita cultural e café com doce no Lola Bar, com vista para o pôr do sol.",
             images: [
               "https://destinopoa.com.br/wp-content/uploads/2024/12/MG_6864_21_11zon.webp",
               "https://destinopoa.com.br/wp-content/uploads/2026/09/MG_6874_13_11zon.webp",
@@ -2607,8 +2647,8 @@
             instaUrl: "https://www.instagram.com/ccmarioquintana/",
             scheduleBlock: {
               number: 5,
-              title: "Fim de Tarde e Café na Casa de Cultura Mário Quintana",
-              time: "16:45 – 18:30"
+              title: "Fim de Tarde e Café na Casa de Cultura Mário Quintana (CCMQ)",
+              time: "16:15 – 18:15"
             },
             subLocations: [
               {
@@ -2630,7 +2670,7 @@
             id: "stop-13",
             stopNumber: 10,
             day: "sun",
-            time: "18:45 – 22:00",
+            time: "18:30 – 22:00",
             name: "Daiso Japan + Jantar no LOOF - Food & Fun",
             category: "Compras & Jantar",
             gradientTheme: "violet",
@@ -2639,7 +2679,7 @@
             lat: -30.0218,
             lng: -51.1626,
             whyThisTime: "Daiso Japan: visitar antes das 20h. LOOF: aberto até as 23h no domingo.",
-            highlights: "Compras na Daiso Japan, no Bourbon Shopping Country, seguidas de jantar no LOOF - Food & Fun, no 2º andar. Bloco das 18h45 às 22h.",
+            highlights: "Visita à Daiso Japan antes das 20h, seguida de jantar no LOOF - Food & Fun, no 2º andar do Bourbon Country. Bloco das 18h30 às 22h.",
             images: [
               "https://www.jornaldocomercio.com/_midias/jpg/2026/06/05/760x541/1_minuto_varejo_bourbon_country_daiso_japan_dia_abertura_jornal_do_comercio-11876313.jpeg",
               "https://upload.wikimedia.org/wikipedia/commons/4/4c/Bourbon_Shopping_Country01.JPG",
@@ -2652,7 +2692,7 @@
             scheduleBlock: {
               number: 6,
               title: "Compras na Daiso Japan + Jantar no LOOF - Food & Fun",
-              time: "18:45 – 22:00"
+              time: "18:30 – 22:00"
             },
             rating: "LOOF · 4,7 ★",
             subLocations: [
@@ -2879,7 +2919,7 @@
           lat: -30.0191,
           lng: -51.1776,
           hoursNote: "Todos os dias: 9h às 12h e 13h às 17h. Entrada gratuita.",
-          highlights: "Jardim japonês com ponte de pedra, cascata e lago de carpas a 3 min do Zaituna.",
+          highlights: "Jardim japonês com ponte de pedra, cascata e lago de carpas. Alternativa fora da programação principal de domingo.",
           images: [
             "https://destinopoa.com.br/wp-content/uploads/2024/05/15MAR2024_Alex-Rocha_Praca-Provincia-de-Shiga_-2.webp",
             "https://upload.wikimedia.org/wikipedia/commons/6/6e/Pra%C3%A7a_shiga4.JPG"
@@ -3030,6 +3070,31 @@
           code: "B8",
           bestFor: "Alternativa fora da programação de domingo",
           hoursNote: "Consultar o funcionamento antes da visita."
+        },
+        {
+          type: "stop",
+          id: "stop-14",
+          name: "Al Nur Restaurante Árabe",
+          category: "Almoço Árabe",
+          gradientTheme: "amber",
+          neighborhood: "Santa Cecília / Bom Fim",
+          address: "Av. Protásio Alves, 616",
+          lat: -30.038551,
+          lng: -51.202008,
+          rating: "4,5 ★",
+          whyThisTime: "Sábado: 11h30 às 15h. Almoço antes do garimpo nos brechós.",
+          highlights: "Culinária árabe tradicional, a cerca de 3 minutos de carro dos brechós da Av. João Pessoa.",
+          images: [
+            "https://alnur.com.br/wp-content/uploads/2020/07/Al-Nur-Rodada-02.jpg",
+            "https://alnur.com.br/wp-content/uploads/2021/08/Beringela-al-Kaplan.jpg"
+          ],
+          mapsUrl: "https://www.google.com/maps/search/?api=1&query=Al%20Nur%20Av.%20Prot%C3%A1sio%20Alves%20616%20Porto%20Alegre",
+          instaUrl: "https://www.instagram.com/arabe_alnur/",
+          websiteUrl: "https://alnur.com.br/",
+          time: "11:45 – 13:15",
+          code: "B9",
+          bestFor: "Alternativa fora do roteiro consolidado",
+          hoursNote: "Sábado: 11h30 às 15h. Almoço antes do garimpo nos brechós."
         }
       ]
     };
@@ -3302,8 +3367,8 @@
           '<section class="logistics-summary-box">' +
           "<h3>Resumo da logística</h3>" +
           '<ul class="logistics-list">' +
-          "<li>Sábado: check-in, almoço no Al Nur, brechós e Vonny, café na Griffe com Samosa opcional, descanso e jantar no Giozakaya às 19h15.</li>" +
-          "<li>Domingo: Farol Santander, Zaituna na Rua Olinda, Brique ou Praça Shiga, CCMQ com café no Lola Bar e Daiso antes das 20h, seguida de jantar no LOOF.</li>" +
+          "<li>Sábado: check-in, almoço e empório no Zaituna (única refeição árabe), brechós e Vonny, Griffe com Samosa opcional, descanso e Giozakaya às 19h15.</li>" +
+          "<li>Domingo: Mercado Público pela manhã e almoço com escolha na hora; Farol à tarde, Brique/Redenção opcional, CCMQ e Lola Bar no fim da tarde, Daiso e LOOF à noite.</li>" +
           "<li>Segunda: check-out, escolha entre Orla e Iguatemi/Travessa, almoço no OKPO com delis a cerca de 2 minutos e retorno às 13h45. Conferir no domingo, via Instagram/WhatsApp, os horários de feriado do OKPO e das delis.</li>" +
           "</ul></section>"
         );
@@ -3370,6 +3435,9 @@
           '<p class="stop-address">' + escapeHtml(stop.address) + "</p>" +
           '<p class="stop-highlights">' + escapeHtml(stop.highlights) + "</p>" +
           subLocHtml +
+          (stop.optionalOuting ? '<aside class="optional-outing"><strong>' + escapeHtml(stop.optionalOuting.title) + '</strong>' +
+            '<p>' + escapeHtml(stop.optionalOuting.description) + '</p><p class="stop-address">' + escapeHtml(stop.optionalOuting.address) + '</p>' +
+            '<a class="action-btn" href="' + escapeHtml(stop.optionalOuting.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Mapa do passeio opcional</a></aside>' : '') +
           '<div class="callout-why"><strong>Horário:</strong> ' + escapeHtml(stop.whyThisTime) + "</div>" +
           (stop.groupNote
             ? '<div class="callout-group"><strong>Grupo:</strong> "' + escapeHtml(stop.groupNote) + '"</div>'
@@ -3412,6 +3480,18 @@
           (visited ? '✓ Visitado' : 'Marcar visitado') + '</button></div></aside>';
       }
 
+      function renderMealChoices(item) {
+        if (!Array.isArray(item.mealChoices)) return '';
+        return '<div class="meal-choices" aria-label="Restaurantes para decidir presencialmente">' +
+          item.mealChoices.map((choice) => '<article class="meal-choice">' +
+            '<div class="meal-choice-tags"><span class="neighborhood-pill">' + escapeHtml(choice.label) + '</span>' +
+            '<span class="meal-history-tag">' + escapeHtml(choice.tag) + '</span></div>' +
+            '<h4>' + escapeHtml(choice.name) + '</h4><p class="stop-address">' + escapeHtml(choice.address) + '</p>' +
+            '<p class="meal-hours">' + escapeHtml(choice.hoursNote) + '</p><p>' + escapeHtml(choice.description) + '</p>' +
+            '<a class="action-btn" href="' + escapeHtml(choice.mapsUrl) + '" target="_blank" rel="noopener noreferrer">Ver localização</a></article>').join('') +
+          '</div>';
+      }
+
       function renderLogisticsCard(item, theme) {
         const isHighlighted = state.mapOpen && state.focusedPinId === item.id;
         const quickLinksHtml =
@@ -3435,9 +3515,11 @@
           '<span class="time-badge">' + escapeHtml(item.time) + "</span>" +
           '<span class="neighborhood-pill">' + escapeHtml(item.neighborhood) + "</span></div>" +
           '<button type="button" class="btn-focus-map" data-focus-pin="' + item.id + '">Mapa</button></div>' +
+          (item.decisionBadge ? '<p class="decision-badge">' + escapeHtml(item.decisionBadge) + '</p>' : '') +
           '<h3 class="logistics-title">' + escapeHtml(item.title) + "</h3>" +
           '<p class="stop-address">' + escapeHtml(item.address || POA_TRIP_DATA.baseHotel.address) + '</p>' +
           '<p class="logistics-desc">' + escapeHtml(item.description) + "</p>" +
+          renderMealChoices(item) +
           (item.hoursNote ? '<div class="callout-why"><strong>Funcionamento:</strong> ' + escapeHtml(item.hoursNote) + '</div>' : '') +
           (hasLinks
             ? '<div class="logistics-links">' +
